@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="CookbookApplication.Views.RecipeCategoriesView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="500" Width="900">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListBox ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}" Margin="0,0,300,0" FontSize="15">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="18" Text="{Binding Path=Name}"/>
+                        <TextBlock Text="{Binding Path=Type}"/>
+                        <TextBlock Text="{Binding Path=Cuisine}"/>
+                        <Image Source="{Binding Path=Image}" Height="50" Width="50" Stretch="Fill"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Add Recipe" Command="{Binding AddRecipeCommand}" Margin="5"/>
+            <Button Content="Remove Recipe" Command="{Binding RemoveRecipeCommand}" CommandParameter="{Binding SelectedRecipe}" Margin="5"/>
+            <Button Content="Edit Recipe" Command="{Binding EditRecipeCommand}" CommandParameter="{Binding SelectedRecipe}" Margin="5"/>
+        </StackPanel>
+        <StackPanel Margin="600,0,0,0">
+        </StackPanel>
+    </Grid>
+</UserControl>
