@@ -7,12 +7,24 @@ namespace CookbookApplication.Models
     {
         private string? name;
 
+        private string? quantity;
+
         public string? Name
         {
             get => name;
             set
             {
                 name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string? Quantity
+        {
+            get => quantity;
+            set
+            {
+                quantity = value;
                 OnPropertyChanged();
             }
         }

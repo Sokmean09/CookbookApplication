@@ -16,9 +16,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\fried_rice.jpg" />
+    <None Remove="Resources\thai-red-curry-with-chicken.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Remove="App.xaml" />
     <Page Remove="MainWindow.xaml" />
     <Page Remove="Views\RecipeCategoriesView.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\fried_rice.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\thai-red-curry-with-chicken.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
