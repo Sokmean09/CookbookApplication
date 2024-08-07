@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Microsoft.Win32;
+using System.Windows;
 
 namespace CookbookApplication.ViewModels
 {
@@ -85,8 +86,14 @@ namespace CookbookApplication.ViewModels
 
         private void RemoveRecipe(object parameter)
         {
-            Recipes.Remove(SelectedRecipe);
+            MessageBoxResult result = MessageBox.Show("Delete the recipe?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Recipes.Remove(SelectedRecipe);
+            }
         }
+
 
         private void EditRecipe(object parameter)
         {
