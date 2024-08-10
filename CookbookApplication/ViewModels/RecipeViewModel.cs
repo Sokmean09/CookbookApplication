@@ -25,24 +25,45 @@ namespace CookbookApplication.ViewModels
             }
         }
 
-        public ICommand AddRecipeCommand { get; }
-        public ICommand RemoveRecipeCommand { get; }
-        public ICommand EditRecipeCommand { get; }
-        public ICommand AddIngredientCommand { get; }
-        public ICommand RemoveIngredientCommand { get; }
-        public ICommand AddInstructionCommand { get; }
-        public ICommand RemoveInstructionCommand { get; }
-        public ICommand EditImageCommand { get; }
+        public List<string> RecipeTypeNames { get; set; } =
+        [
+            "Main-dish",
+            "Side-dish",
+            "Dessert",
+            "Breakfast",
+            "Lunch",
+            "Dinner",
+            "Salad",
+            "Soup/Stew",
+            "Snack",
+            "Baked-goods",
+            "Others"
+        ];
+
+        public List<string> RecipeCuisineNames { get; set; } =
+        [
+            "American",
+            "British",
+            "Chinese",
+            "French",
+            "Japanese",
+            "Khmer",
+            "Mexican",
+            "Spanish",
+            "Thai",
+            "Vietnamese",
+            "Others"
+        ];
 
         public RecipeViewModel()
         {
-            Recipes = new ObservableCollection<Recipe?>
-            {
+            Recipes =
+            [
                 new Recipe
                 {
                     Name = "fry rice", 
-                    Type = "Main dishes", 
-                    Cuisine = "Cambodia", 
+                    Type = "Main-dish", 
+                    Cuisine = "Khmer", 
                     Ingredients = [new Ingredient { Name = "rice", Quantity = "100g"}, 
                                    new Ingredient { Name = "egg" , Quantity = "1 whole"}],
                     Instructions = [new Instruction { Name = "crack egg"},
@@ -56,7 +77,7 @@ namespace CookbookApplication.ViewModels
                     Ingredients = [],
                     Instructions = [],
                     Image = "..\\Resources\\thai-red-curry-with-chicken.jpg" }
-            };
+            ];
             AddRecipeCommand = new RelayCommand(AddRecipe);
             RemoveRecipeCommand = new RelayCommand(RemoveRecipe, CanRemoveRecipe);
             EditRecipeCommand = new RelayCommand(EditRecipe, CanEditRecipe);
@@ -66,6 +87,15 @@ namespace CookbookApplication.ViewModels
             RemoveInstructionCommand = new RelayCommand(RemoveInstruction, CanRemoveInstruction);
             EditImageCommand = new RelayCommand(EditImage);
         }
+
+        public RelayCommand AddRecipeCommand { get; }
+        public RelayCommand RemoveRecipeCommand { get; }
+        public RelayCommand EditRecipeCommand { get; }
+        public RelayCommand AddIngredientCommand { get; }
+        public RelayCommand RemoveIngredientCommand { get; }
+        public RelayCommand AddInstructionCommand { get; }
+        public RelayCommand RemoveInstructionCommand { get; }
+        public RelayCommand EditImageCommand { get; }
 
         private void AddRecipe(object parameter)
         {
@@ -97,8 +127,10 @@ namespace CookbookApplication.ViewModels
 
         private void EditRecipe(object parameter)
         {
-            RecipeEditView recipeEditView = new();
-            recipeEditView.DataContext = this;
+            RecipeEditView recipeEditView = new()
+            {
+                DataContext = this
+            };
             recipeEditView.ShowDialog();
         }
 
