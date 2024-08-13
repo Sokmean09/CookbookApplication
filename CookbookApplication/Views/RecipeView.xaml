@@ -7,11 +7,14 @@
         mc:Ignorable="d"
         Title="RecipeView" MinHeight="500" MinWidth="900" WindowStartupLocation="CenterScreen" Height="500" Width="900">
     <DockPanel>
-        
+
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open"/>
-                <MenuItem Header="_Save"/>
+                <MenuItem Header="_Save">
+                    <MenuItem Header="Save as _Doc/Docx" Command="{Binding SaveDocDocxFileCommand}"/>
+                    <MenuItem Header="Save as _Pdf" Command="{Binding SavePdfFileCommand}"/>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
@@ -21,26 +24,26 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Recipes" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="117,10,0,0"/>
+            <TextBlock Text="Recipes" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="142,10,0,0"/>
             <TextBlock Text="Ingredients" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,415,0"/>
             <TextBlock Text="Instructions" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,124,0"/>
-            
-            
-            
-            <ListBox ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}" HorizontalAlignment="Left" Width="300" FontSize="15" Margin="0,40,0,0">
+
+
+
+            <ListBox ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}" d:ItemsSource="{d:SampleData ItemCount=3}" HorizontalAlignment="Left" Width="250" FontSize="15" Margin="50,40,0,0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5">
                             <TextBlock FontSize="18" Text="{Binding Name}"/>
                             <TextBlock Text="{Binding Type}"/>
                             <TextBlock Text="{Binding Cuisine}"/>
-                            <Image Source="{Binding Image}" Height="50" Width="50" Stretch="Fill"/>
+                            <Image Source="{Binding ImagePath}" HorizontalAlignment="Left" Height="50" Width="50" Stretch="Fill"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ListBox ItemsSource="{Binding SelectedRecipe.Ingredients}" HorizontalAlignment="Right" Margin="0,40,350,0" FontSize="15" d:ItemsSource="{d:SampleData ItemCount=5}" BorderBrush="{x:Null}" Height="auto" Width="230" Background="#FFDAD4D3">
+            <ListBox ItemsSource="{Binding SelectedRecipe.Ingredients}" HorizontalAlignment="Right" FontSize="15" d:ItemsSource="{d:SampleData ItemCount=5}" BorderBrush="{x:Null}" Height="auto" Width="230" Background="#FFDAD4D3"  Margin="0,40,350,0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -67,7 +70,25 @@
                 <Button Content="Edit Recipe" Command="{Binding EditRecipeCommand}" CommandParameter="{Binding SelectedRecipe}" Margin="5"/>
             </StackPanel>
             
-            <Button Content="Search" Width="45" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"></Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,20,0,0">
+                <Button Content="Search" FontSize="10" Width="39" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding ToggleSearchBarCommand}"/>
+                <TextBox Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding SearchBarVisibility}" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,60,0,0">
+                
+                <Button Content="Sort" FontSize="10" Width="39" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding ToggleSortBarCommand}"/>
+                <StackPanel Orientation="Vertical" Background="#FFDDDDDD" Visibility="{Binding SortBarVisibility}">
+                    <TextBlock Text="Type" FontSize="15" HorizontalAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding RecipeTypeNames}" SelectedItem="{Binding SortType}" Width="130" Margin="5,0" FontSize="15" MaxDropDownHeight="100" IsTextSearchEnabled="True" />
+                    <TextBlock Text="Cuisine" FontSize="15" HorizontalAlignment="Center" Margin="0,5"/>
+                    <ComboBox ItemsSource="{Binding RecipeCuisineNames}" SelectedItem="{Binding SortCuisine}" Width="130" Margin="5,0" FontSize="15" MaxDropDownHeight="100" IsTextSearchEnabled="True" />
+                    <Button Content="Reset" FontSize="15" HorizontalAlignment="Stretch" Margin="20,20,20,5" Command="{Binding ResetSortBarCommand}"/>
+
+                </StackPanel>
+                
+            </StackPanel>-->
+
         </Grid>
         
     </DockPanel>

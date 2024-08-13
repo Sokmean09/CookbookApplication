@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using CookbookApplication.Services;
 using CookbookApplication.ViewModels;
 
 namespace CookbookApplication.Views
@@ -12,7 +13,7 @@ namespace CookbookApplication.Views
         {
             InitializeComponent();
 
-            DataContext = new RecipeViewModel();
+            DataContext = new RecipeViewModel(new DefaultDialogService(), new DocDocxFileService(), new PdfFileService());
         }
     }
 }

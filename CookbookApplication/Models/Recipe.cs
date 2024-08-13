@@ -9,7 +9,7 @@ namespace CookbookApplication.Models
         private string? name;
         private string? type;
         private string? cuisine;
-        private string? image;
+        private string? imagepath;
         private ObservableCollection<Ingredient>? ingredients;
         private ObservableCollection<Instruction>? instructions;
 
@@ -43,12 +43,12 @@ namespace CookbookApplication.Models
             }
         }
 
-        public string? Image
+        public string? ImagePath
         {
-            get => image;
+            get => imagepath;
             set
             {
-                image = value;
+                imagepath = value;
                 OnPropertyChanged();
             }
         }

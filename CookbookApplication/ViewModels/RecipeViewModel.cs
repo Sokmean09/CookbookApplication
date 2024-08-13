@@ -1,19 +1,27 @@
-﻿using CookbookApplication.Services;
-using CookbookApplication.Models;
-using CookbookApplication.Views;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using Microsoft.Win32;
 using System.Windows;
+using CookbookApplication.Services;
+using CookbookApplication.Models;
+using CookbookApplication.Views;
+using static CookbookApplication.Services.DefaultDialogService;
 
 namespace CookbookApplication.ViewModels
 {
     internal class RecipeViewModel : INotifyPropertyChanged
     {
         private Recipe? selectedRecipe;
-        public ObservableCollection<Recipe?> Recipes { get; set; }
+        public ObservableCollection<Recipe?> recipes = [];
+        private Visibility searchBarVisibility = Visibility.Collapsed;
+        private Visibility sortBarVisibility = Visibility.Collapsed;
+        private string? searchText;
+        private string? sortType;
+        private string? sortCuisine;
+        private readonly IDialogService dialogService;
+        private readonly IFileService pdfFileService;
+        private readonly IFileService docxFileService;
 
         public Recipe? SelectedRecipe
         {
@@ -25,6 +33,69 @@ namespace CookbookApplication.ViewModels
             }
         }
 
+        public ObservableCollection<Recipe?> Recipes
+        {
+            get => recipes;
+            set
+            {
+                recipes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility SearchBarVisibility
+        {
+            get => searchBarVisibility;
+            set
+            {
+                searchBarVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility SortBarVisibility
+        {
+            get => sortBarVisibility;
+            set
+            {
+                sortBarVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string? SearchText
+        {
+            get => searchText;
+            set
+            {
+                searchText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string? SortType
+        {
+            get => sortType;
+            set
+            {
+                sortType = value;
+                OnPropertyChanged();
+                //ApplySorting();
+            }
+        }
+
+        public string? SortCuisine
+        {
+            get => sortCuisine;
+            set
+            {
+                sortCuisine = value;
+                OnPropertyChanged();
+                //ApplySorting();
+            }
+        }
+
+
         public List<string> RecipeTypeNames { get; set; } =
         [
             "Main-dish",
@@ -34,7 +105,8 @@ namespace CookbookApplication.ViewModels
             "Lunch",
             "Dinner",
             "Salad",
-            "Soup/Stew",
+            "Soup",
+            "Stew",
             "Snack",
             "Baked-goods",
             "Others"
@@ -55,8 +127,12 @@ namespace CookbookApplication.ViewModels
             "Others"
         ];
 
-        public RecipeViewModel()
+        public RecipeViewModel(IDialogService dialogService, IFileService docxFileService, IFileService pdfFileService)
         {
+            this.dialogService = dialogService;
+            this.pdfFileService = pdfFileService;
+            this.docxFileService = docxFileService;
+
             Recipes =
             [
                 new Recipe
@@ -68,7 +144,7 @@ namespace CookbookApplication.ViewModels
                                    new Ingredient { Name = "egg" , Quantity = "1 whole"}],
                     Instructions = [new Instruction { Name = "crack egg"},
                                     new Instruction { Name = "stir"}],
-                    Image = "..\\Resources\\fried_rice.jpg" },
+                    ImagePath = "..\\Resources\\fried_rice.jpg" },
                 new Recipe 
                 {
                     Name = "red curry",
@@ -76,16 +152,24 @@ namespace CookbookApplication.ViewModels
                     Cuisine = "Thai",
                     Ingredients = [],
                     Instructions = [],
-                    Image = "..\\Resources\\thai-red-curry-with-chicken.jpg" }
+                    ImagePath = "..\\Resources\\thai-red-curry-with-chicken.jpg" }
             ];
-            AddRecipeCommand = new RelayCommand(AddRecipe);
-            RemoveRecipeCommand = new RelayCommand(RemoveRecipe, CanRemoveRecipe);
-            EditRecipeCommand = new RelayCommand(EditRecipe, CanEditRecipe);
-            AddIngredientCommand = new RelayCommand(AddIngredient);
-            AddInstructionCommand = new RelayCommand(AddInstruction);
-            RemoveIngredientCommand = new RelayCommand(RemoveIngredient, CanRemoveIngredient);
-            RemoveInstructionCommand = new RelayCommand(RemoveInstruction, CanRemoveInstruction);
-            EditImageCommand = new RelayCommand(EditImage);
+            AddRecipeCommand = new(AddRecipe);
+            RemoveRecipeCommand = new(RemoveRecipe, CanRemoveRecipe);
+            EditRecipeCommand = new(EditRecipe, CanEditRecipe);
+            AddIngredientCommand = new(AddIngredient);
+            AddInstructionCommand = new(AddInstruction);
+            RemoveIngredientCommand = new(RemoveIngredient, CanRemoveIngredient);
+            RemoveInstructionCommand = new(RemoveInstruction, CanRemoveInstruction);
+            EditImageCommand = new(EditImage);
+            ToggleSearchBarCommand = new(ToggleSearchBar);
+            /*ToggleSortBarCommand = new(ToggleSortBar);
+            ResetSortBarCommand = new(ResetSortBar);*/
+            SaveDocDocxFileCommand = new(SaveDocDocxFile);
+            SavePdfFileCommand = new(SavePdfFile);
+            /*Recipes.Add(new Recipe { Name = "Recipe1", Type = "Side-dish", Cuisine = "Chinese", ImagePath = "..\\Resources\\fried_rice.jpg" });
+            Recipes.Add(new Recipe { Name = "Recipe2", Type = "Main", Cuisine = "Italian", ImagePath = "..\\Resources\\fried_rice.jpg" });
+            Recipes.Add(new Recipe { Name = "Recipe3", Type = "Dessert", Cuisine = "French", ImagePath = "..\\Resources\\fried_rice.jpg" })*/;
         }
 
         public RelayCommand AddRecipeCommand { get; }
@@ -96,6 +180,11 @@ namespace CookbookApplication.ViewModels
         public RelayCommand AddInstructionCommand { get; }
         public RelayCommand RemoveInstructionCommand { get; }
         public RelayCommand EditImageCommand { get; }
+        public RelayCommand ToggleSearchBarCommand { get; }
+        /* public RelayCommand ToggleSortBarCommand { get; }
+         public RelayCommand ResetSortBarCommand { get; }*/
+        public RelayCommand SaveDocDocxFileCommand { get; }
+        public RelayCommand SavePdfFileCommand { get; }
 
         private void AddRecipe(object parameter)
         {
@@ -148,7 +237,7 @@ namespace CookbookApplication.ViewModels
         {
             if (parameter is Ingredient ingredient && SelectedRecipe != null)
             {
-                SelectedRecipe?.Ingredients?.Remove(ingredient);
+                SelectedRecipe.Ingredients?.Remove(ingredient);
             }
         }
 
@@ -183,10 +272,87 @@ namespace CookbookApplication.ViewModels
             };
             if (openFileDialog.ShowDialog() == true)
             {
-                SelectedRecipe.Image = openFileDialog.FileName;
+                SelectedRecipe.ImagePath = openFileDialog.FileName;
                 OnPropertyChanged(nameof(SelectedRecipe));
             }
         }
+
+        private void ToggleSearchBar(object parameter)
+        {
+            SearchBarVisibility = SearchBarVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        /*private void ToggleSortBar(object parameter)
+        {
+            SortBarVisibility = SortBarVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void ResetSortBar(object parameter)
+        {
+            SortType = null;
+            SortCuisine = null;
+            ApplySorting();
+        }
+        private void ApplySorting()
+        {
+            var collectionView = CollectionViewSource.GetDefaultView(Recipes);
+            if (collectionView == null) return;
+
+            collectionView.SortDescriptions.Clear();
+
+            if (!string.IsNullOrEmpty(SortType))
+            {
+                collectionView.SortDescriptions.Add(new SortDescription(nameof(Recipe.Type), ListSortDirection.Ascending));
+            }
+
+            if (!string.IsNullOrEmpty(SortCuisine))
+            {
+                collectionView.SortDescriptions.Add(new SortDescription(nameof(Recipe.Cuisine), ListSortDirection.Ascending));
+            }
+
+            collectionView.Refresh();
+        }*/
+
+        private void SaveDocDocxFile(object parameter)
+        {
+            try
+            {
+                if (dialogService.SaveFileDialog(FileType.Word))
+                {
+                    docxFileService.Save(dialogService.FilePath,
+                        Recipes.Select(recipe => new Recipe
+                        { Name = recipe?.Name, Type = recipe?.Type, Cuisine = recipe?.Cuisine, ImagePath = recipe?.ImagePath,
+                            Ingredients = recipe?.Ingredients, Instructions = recipe?.Instructions }).ToList());
+                    dialogService.ShowMessage("File saved");
+                }
+            }
+            catch (Exception ex)
+            {
+                dialogService.ShowMessage(ex.Message);
+            }
+        }
+
+        private void SavePdfFile(object parameter)
+        {
+            try
+            {
+                if (dialogService.SaveFileDialog(FileType.Pdf))
+                {
+                    pdfFileService.Save(dialogService.FilePath,
+                        Recipes.Select(recipe => new Recipe
+                        { Name = recipe?.Name, Type = recipe?.Type, Cuisine = recipe?.Cuisine, ImagePath = recipe?.ImagePath,
+                            Ingredients = recipe?.Ingredients, Instructions = recipe?.Instructions }).ToList());
+                    dialogService.ShowMessage("File saved");
+                }
+            }
+            catch (Exception ex)
+            {
+                dialogService.ShowMessage(ex.Message);
+            }
+        }
+
+
+
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
