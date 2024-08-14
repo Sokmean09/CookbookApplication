@@ -30,7 +30,7 @@
 
 
 
-            <ListBox x:Name="RecipesList" ItemsSource="{Binding FilteredRecipes}" SelectedItem="{Binding SelectedRecipe}" d:ItemsSource="{d:SampleData ItemCount=3}" HorizontalAlignment="Left" Width="250" FontSize="15" Margin="50,40,0,0">
+            <ListBox x:Name="RecipesList" ItemsSource="{Binding FilteredRecipes}" SelectedItem="{Binding SelectedRecipe}" d:ItemsSource="{d:SampleData ItemCount=3}" HorizontalAlignment="Left" Width="250" FontSize="15" Margin="50,64,0,0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5">
@@ -72,23 +72,9 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <TextBox Width="200" Height="30" VerticalAlignment="Top" Margin="10" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Content="Search" Width="100" Height="30" VerticalAlignment="Top" Margin="20,10,0,0" Command="{Binding SearchParameterCommand}"/>
+                <TextBox Width="200" Height="25" VerticalAlignment="Top" Margin="50,40,0,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Content="Search" Width="50" Height="25" VerticalAlignment="Top" Margin="0,40,0,0" Command="{Binding SearchParameterCommand}"/>
             </StackPanel>
-            
-            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,60,0,0">
-                
-                <Button Content="Sort" FontSize="10" Width="39" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding ToggleSortBarCommand}"/>
-                <StackPanel Orientation="Vertical" Background="#FFDDDDDD" Visibility="{Binding SortBarVisibility}">
-                    <TextBlock Text="Type" FontSize="15" HorizontalAlignment="Center"/>
-                    <ComboBox ItemsSource="{Binding RecipeTypeNames}" SelectedItem="{Binding SortType}" Width="130" Margin="5,0" FontSize="15" MaxDropDownHeight="100" IsTextSearchEnabled="True" />
-                    <TextBlock Text="Cuisine" FontSize="15" HorizontalAlignment="Center" Margin="0,5"/>
-                    <ComboBox ItemsSource="{Binding RecipeCuisineNames}" SelectedItem="{Binding SortCuisine}" Width="130" Margin="5,0" FontSize="15" MaxDropDownHeight="100" IsTextSearchEnabled="True" />
-                    <Button Content="Reset" FontSize="15" HorizontalAlignment="Stretch" Margin="20,20,20,5" Command="{Binding ResetSortBarCommand}"/>
-
-                </StackPanel>
-                
-            </StackPanel>-->
 
         </Grid>
         

@@ -154,11 +154,14 @@ namespace CookbookApplication.ViewModels
             AddRecipeCommand = new(AddRecipe);
             RemoveRecipeCommand = new(RemoveRecipe, CanRemoveRecipe);
             EditRecipeCommand = new(EditRecipe, CanEditRecipe);
+            ExportRecipeCommand = new(ExportRecipe, CanExportRecipe);
+
             AddIngredientCommand = new(AddIngredient);
             AddInstructionCommand = new(AddInstruction);
             RemoveIngredientCommand = new(RemoveIngredient, CanRemoveIngredient);
             RemoveInstructionCommand = new(RemoveInstruction, CanRemoveInstruction);
             EditImageCommand = new(EditImage);
+
             ToggleSearchBarCommand = new(ToggleSearchBar);
             SearchParameterCommand = new(SearchParameters);
 
@@ -231,25 +234,39 @@ namespace CookbookApplication.ViewModels
         {
             try
             {
-                if (dialogService.SaveFileDialog(FileType.Word))
+                if (dialogService.SaveFileDialog(DefaultDialogService.FileType.All))
                 {
-                    docxFileService.Save(dialogService.FilePath,
-                        Recipes.Select(recipe => new Recipe
-                        {
-                            Name = recipe?.Name,
-                            Type = recipe?.Type,
-                            Cuisine = recipe?.Cuisine,
-                            ImagePath = recipe?.ImagePath,
-                            Ingredients = recipe?.Ingredients,
-                            Instructions = recipe?.Instructions
-                        }).ToList());
-                    dialogService.ShowMessage("File saved");
+                    List<Recipe> list = [SelectedRecipe];
+
+                    string filePath = dialogService.FilePath;
+                    string fileExtension = System.IO.Path.GetExtension(filePath).ToLower();
+
+                    if (fileExtension == ".doc" || fileExtension == ".docx")
+                    {
+                        docxFileService.Save(filePath, list);
+                    }
+                    else if (fileExtension == ".pdf")
+                    {
+                        pdfFileService.Save(filePath, list);
+                    }
+                    else
+                    {
+                        dialogService.ShowMessage("Unsupported file type.");
+                        return;
+                    }
+
+                    dialogService.ShowMessage("File saved successfully.");
                 }
             }
             catch (Exception ex)
             {
                 dialogService.ShowMessage(ex.Message);
             }
+        }
+
+        private bool CanExportRecipe(object parameter)
+        {
+            return SelectedRecipe != null;
         }
 
         private void AddIngredient(object parameter)
@@ -308,7 +325,6 @@ namespace CookbookApplication.ViewModels
 
         private void SearchParameters(object parameter)
         {
-            // Split the search text into individual search terms
             List<string>? searchParameters = SearchText?
                 .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(term => term.ToLower())
@@ -317,7 +333,6 @@ namespace CookbookApplication.ViewModels
             // If the search text is empty or contains only whitespace, show all recipes
             if (searchParameters == null || searchParameters.Count == 0)
             {
-                // Clear the filtered list and add all recipes
                 FilteredRecipes.Clear();
                 foreach (var recipe in Recipes)
                 {
@@ -326,19 +341,15 @@ namespace CookbookApplication.ViewModels
                 return;
             }
 
-            // Clear the filtered list to start fresh
             FilteredRecipes.Clear();
 
-            // Iterate through all recipes
             foreach (Recipe recipe in Recipes)
             {
-                // Check if any of the search terms match the name, type, or cuisine of the recipe
                 if (searchParameters.Any(searchString =>
                     recipe.Name?.ToLower().Contains(searchString) == true ||
                     recipe.Type?.ToLower().Contains(searchString) == true ||
                     recipe.Cuisine?.ToLower().Contains(searchString) == true))
                 {
-                    // If a match is found, add the recipe to the filtered list
                     if (!FilteredRecipes.Contains(recipe))
                     {
                         FilteredRecipes.Add(recipe);
@@ -357,7 +368,7 @@ namespace CookbookApplication.ViewModels
                         Recipes.Select(recipe => new Recipe
                         { Name = recipe?.Name, Type = recipe?.Type, Cuisine = recipe?.Cuisine, ImagePath = recipe?.ImagePath,
                             Ingredients = recipe?.Ingredients, Instructions = recipe?.Instructions }).ToList());
-                    dialogService.ShowMessage("File saved");
+                    dialogService.ShowMessage("File saved successfully.");
                 }
             }
             catch (Exception ex)
@@ -376,7 +387,7 @@ namespace CookbookApplication.ViewModels
                         Recipes.Select(recipe => new Recipe
                         { Name = recipe?.Name, Type = recipe?.Type, Cuisine = recipe?.Cuisine, ImagePath = recipe?.ImagePath,
                             Ingredients = recipe?.Ingredients, Instructions = recipe?.Instructions }).ToList());
-                    dialogService.ShowMessage("File saved");
+                    dialogService.ShowMessage("File saved successfully.");
                 }
             }
             catch (Exception ex)

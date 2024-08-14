@@ -26,7 +26,8 @@ namespace CookbookApplication.Services
         public enum FileType
         {
             Word,
-            Pdf
+            Pdf,
+            All
         }
 
         public bool SaveFileDialog(FileType fileType)
@@ -55,6 +56,12 @@ namespace CookbookApplication.Services
             {
                 saveFileDialog.Filter = "PDF Documents (*.pdf)|*.pdf";
                 saveFileDialog.DefaultExt = "pdf"; // Default file extension for PDF
+                saveFileDialog.AddExtension = true; // Add the selected extension to the file name
+            }
+            else
+            {
+                saveFileDialog.Filter = "PDF Documents (*.pdf)|*.pdf|Word Documents (*.doc)|*.doc|Word Documents (*.docx)|*.docx";
+                saveFileDialog.DefaultExt = "pdf"; // Default file extension
                 saveFileDialog.AddExtension = true; // Add the selected extension to the file name
             }
         }
