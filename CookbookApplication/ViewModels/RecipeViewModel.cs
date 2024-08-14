@@ -17,10 +17,7 @@ namespace CookbookApplication.ViewModels
         public ObservableCollection<Recipe> Recipes { get; set; }
         public ObservableCollection<Recipe> FilteredRecipes { get; set; }
         private Visibility searchBarVisibility = Visibility.Collapsed;
-        private Visibility sortBarVisibility = Visibility.Collapsed;
         private string? searchText;
-        private string? sortType;
-        private string? sortCuisine;
         private readonly IDialogService dialogService;
         private readonly IFileService pdfFileService;
         private readonly IFileService docxFileService;
@@ -35,23 +32,12 @@ namespace CookbookApplication.ViewModels
             }
         }
 
-
         public Visibility SearchBarVisibility
         {
             get => searchBarVisibility;
             set
             {
                 searchBarVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility SortBarVisibility
-        {
-            get => sortBarVisibility;
-            set
-            {
-                sortBarVisibility = value;
                 OnPropertyChanged();
             }
         }
@@ -67,26 +53,6 @@ namespace CookbookApplication.ViewModels
                 {
                     SearchParameters(new object());
                 }
-            }
-        }
-
-        public string? SortType
-        {
-            get => sortType;
-            set
-            {
-                sortType = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string? SortCuisine
-        {
-            get => sortCuisine;
-            set
-            {
-                sortCuisine = value;
-                OnPropertyChanged();
             }
         }
 
@@ -330,7 +296,6 @@ namespace CookbookApplication.ViewModels
                 .Select(term => term.ToLower())
                 .ToList();
 
-            // If the search text is empty or contains only whitespace, show all recipes
             if (searchParameters == null || searchParameters.Count == 0)
             {
                 FilteredRecipes.Clear();
@@ -395,9 +360,6 @@ namespace CookbookApplication.ViewModels
                 dialogService.ShowMessage(ex.Message);
             }
         }
-
-
-
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
