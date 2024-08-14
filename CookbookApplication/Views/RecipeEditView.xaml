@@ -20,7 +20,7 @@
         <StackPanel HorizontalAlignment="Left" Margin="0,10,0,10" MinWidth="150" Orientation="Vertical">
 
             <TextBlock Text="Name" FontWeight="DemiBold"/>
-            <TextBox Text="{Binding SelectedRecipe.Name}" FontSize="15"/>
+            <TextBox Text="{Binding SelectedRecipe.Name, UpdateSourceTrigger=PropertyChanged}" FontSize="15"/>
             <TextBlock Text="Type" FontWeight="DemiBold" Margin="10,10,10,0"/>
             <ComboBox Width="130" ItemsSource="{Binding RecipeTypeNames}" SelectedItem="{Binding SelectedRecipe.Type}" FontSize="15" MaxDropDownHeight="100" IsTextSearchEnabled="True" />
             <TextBlock Text="Cuisine" FontWeight="DemiBold" Margin="10,10,10,0"/>
@@ -45,8 +45,8 @@
                             </LinearGradientBrush>
                         </DataGrid.Background>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="*" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -74,7 +74,7 @@
                         </LinearGradientBrush>
                     </DataGrid.Background>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Instruction" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Instruction" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
 

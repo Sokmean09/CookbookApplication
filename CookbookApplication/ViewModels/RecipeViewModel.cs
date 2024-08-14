@@ -7,13 +7,15 @@ using CookbookApplication.Services;
 using CookbookApplication.Models;
 using CookbookApplication.Views;
 using static CookbookApplication.Services.DefaultDialogService;
+using System.Windows.Markup;
 
 namespace CookbookApplication.ViewModels
 {
     internal class RecipeViewModel : INotifyPropertyChanged
     {
-        private Recipe? selectedRecipe;
-        public ObservableCollection<Recipe?> recipes = [];
+        private Recipe selectedRecipe;
+        public ObservableCollection<Recipe> Recipes { get; set; }
+        public ObservableCollection<Recipe> FilteredRecipes { get; set; }
         private Visibility searchBarVisibility = Visibility.Collapsed;
         private Visibility sortBarVisibility = Visibility.Collapsed;
         private string? searchText;
@@ -23,7 +25,7 @@ namespace CookbookApplication.ViewModels
         private readonly IFileService pdfFileService;
         private readonly IFileService docxFileService;
 
-        public Recipe? SelectedRecipe
+        public Recipe SelectedRecipe
         {
             get => selectedRecipe;
             set
@@ -33,15 +35,6 @@ namespace CookbookApplication.ViewModels
             }
         }
 
-        public ObservableCollection<Recipe?> Recipes
-        {
-            get => recipes;
-            set
-            {
-                recipes = value;
-                OnPropertyChanged();
-            }
-        }
 
         public Visibility SearchBarVisibility
         {
@@ -70,6 +63,10 @@ namespace CookbookApplication.ViewModels
             {
                 searchText = value;
                 OnPropertyChanged();
+                if (SearchText == string.Empty)
+                {
+                    SearchParameters(new object());
+                }
             }
         }
 
@@ -80,7 +77,6 @@ namespace CookbookApplication.ViewModels
             {
                 sortType = value;
                 OnPropertyChanged();
-                //ApplySorting();
             }
         }
 
@@ -91,7 +87,6 @@ namespace CookbookApplication.ViewModels
             {
                 sortCuisine = value;
                 OnPropertyChanged();
-                //ApplySorting();
             }
         }
 
@@ -154,6 +149,8 @@ namespace CookbookApplication.ViewModels
                     Instructions = [],
                     ImagePath = "..\\Resources\\thai-red-curry-with-chicken.jpg" }
             ];
+            FilteredRecipes = new(Recipes);
+
             AddRecipeCommand = new(AddRecipe);
             RemoveRecipeCommand = new(RemoveRecipe, CanRemoveRecipe);
             EditRecipeCommand = new(EditRecipe, CanEditRecipe);
@@ -163,26 +160,26 @@ namespace CookbookApplication.ViewModels
             RemoveInstructionCommand = new(RemoveInstruction, CanRemoveInstruction);
             EditImageCommand = new(EditImage);
             ToggleSearchBarCommand = new(ToggleSearchBar);
-            /*ToggleSortBarCommand = new(ToggleSortBar);
-            ResetSortBarCommand = new(ResetSortBar);*/
+            SearchParameterCommand = new(SearchParameters);
+
             SaveDocDocxFileCommand = new(SaveDocDocxFile);
             SavePdfFileCommand = new(SavePdfFile);
-            /*Recipes.Add(new Recipe { Name = "Recipe1", Type = "Side-dish", Cuisine = "Chinese", ImagePath = "..\\Resources\\fried_rice.jpg" });
-            Recipes.Add(new Recipe { Name = "Recipe2", Type = "Main", Cuisine = "Italian", ImagePath = "..\\Resources\\fried_rice.jpg" });
-            Recipes.Add(new Recipe { Name = "Recipe3", Type = "Dessert", Cuisine = "French", ImagePath = "..\\Resources\\fried_rice.jpg" })*/;
         }
 
         public RelayCommand AddRecipeCommand { get; }
         public RelayCommand RemoveRecipeCommand { get; }
         public RelayCommand EditRecipeCommand { get; }
+        public RelayCommand ExportRecipeCommand { get; }
+
         public RelayCommand AddIngredientCommand { get; }
         public RelayCommand RemoveIngredientCommand { get; }
         public RelayCommand AddInstructionCommand { get; }
         public RelayCommand RemoveInstructionCommand { get; }
         public RelayCommand EditImageCommand { get; }
+
         public RelayCommand ToggleSearchBarCommand { get; }
-        /* public RelayCommand ToggleSortBarCommand { get; }
-         public RelayCommand ResetSortBarCommand { get; }*/
+        public RelayCommand SearchParameterCommand { get; }
+
         public RelayCommand SaveDocDocxFileCommand { get; }
         public RelayCommand SavePdfFileCommand { get; }
 
@@ -196,6 +193,7 @@ namespace CookbookApplication.ViewModels
                 Ingredients = [new Ingredient { Name = "New Ingredient", Quantity = "1" }],
                 Instructions = [new Instruction { Name = "New Instruction" }]
             }) ;
+            SearchParameters(new object());
         }
 
         private bool CanRemoveRecipe(object parameter)
@@ -210,6 +208,7 @@ namespace CookbookApplication.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 Recipes.Remove(SelectedRecipe);
+                SearchParameters(new object());
             }
         }
 
@@ -226,6 +225,31 @@ namespace CookbookApplication.ViewModels
         private bool CanEditRecipe(object parameter)
         {
             return SelectedRecipe != null;
+        }
+
+        private void ExportRecipe(object parameter)
+        {
+            try
+            {
+                if (dialogService.SaveFileDialog(FileType.Word))
+                {
+                    docxFileService.Save(dialogService.FilePath,
+                        Recipes.Select(recipe => new Recipe
+                        {
+                            Name = recipe?.Name,
+                            Type = recipe?.Type,
+                            Cuisine = recipe?.Cuisine,
+                            ImagePath = recipe?.ImagePath,
+                            Ingredients = recipe?.Ingredients,
+                            Instructions = recipe?.Instructions
+                        }).ToList());
+                    dialogService.ShowMessage("File saved");
+                }
+            }
+            catch (Exception ex)
+            {
+                dialogService.ShowMessage(ex.Message);
+            }
         }
 
         private void AddIngredient(object parameter)
@@ -282,36 +306,46 @@ namespace CookbookApplication.ViewModels
             SearchBarVisibility = SearchBarVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        /*private void ToggleSortBar(object parameter)
+        private void SearchParameters(object parameter)
         {
-            SortBarVisibility = SortBarVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
-        }
+            // Split the search text into individual search terms
+            List<string>? searchParameters = SearchText?
+                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(term => term.ToLower())
+                .ToList();
 
-        private void ResetSortBar(object parameter)
-        {
-            SortType = null;
-            SortCuisine = null;
-            ApplySorting();
-        }
-        private void ApplySorting()
-        {
-            var collectionView = CollectionViewSource.GetDefaultView(Recipes);
-            if (collectionView == null) return;
-
-            collectionView.SortDescriptions.Clear();
-
-            if (!string.IsNullOrEmpty(SortType))
+            // If the search text is empty or contains only whitespace, show all recipes
+            if (searchParameters == null || searchParameters.Count == 0)
             {
-                collectionView.SortDescriptions.Add(new SortDescription(nameof(Recipe.Type), ListSortDirection.Ascending));
+                // Clear the filtered list and add all recipes
+                FilteredRecipes.Clear();
+                foreach (var recipe in Recipes)
+                {
+                    FilteredRecipes.Add(recipe);
+                }
+                return;
             }
 
-            if (!string.IsNullOrEmpty(SortCuisine))
-            {
-                collectionView.SortDescriptions.Add(new SortDescription(nameof(Recipe.Cuisine), ListSortDirection.Ascending));
-            }
+            // Clear the filtered list to start fresh
+            FilteredRecipes.Clear();
 
-            collectionView.Refresh();
-        }*/
+            // Iterate through all recipes
+            foreach (Recipe recipe in Recipes)
+            {
+                // Check if any of the search terms match the name, type, or cuisine of the recipe
+                if (searchParameters.Any(searchString =>
+                    recipe.Name?.ToLower().Contains(searchString) == true ||
+                    recipe.Type?.ToLower().Contains(searchString) == true ||
+                    recipe.Cuisine?.ToLower().Contains(searchString) == true))
+                {
+                    // If a match is found, add the recipe to the filtered list
+                    if (!FilteredRecipes.Contains(recipe))
+                    {
+                        FilteredRecipes.Add(recipe);
+                    }
+                }
+            }
+        }
 
         private void SaveDocDocxFile(object parameter)
         {
