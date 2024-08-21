@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <None Remove="Resources\fried_rice.jpg" />
+    <None Remove="Resources\image.png" />
     <None Remove="Resources\thai-red-curry-with-chicken.jpg" />
   </ItemGroup>
 
@@ -33,6 +34,9 @@
 
   <ItemGroup>
     <Resource Include="Resources\fried_rice.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\thai-red-curry-with-chicken.jpg">
@@ -53,12 +57,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Resources\search_icon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

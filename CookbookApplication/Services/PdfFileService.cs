@@ -3,6 +3,8 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using CookbookApplication.Models;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Media.Media3D;
 
 namespace CookbookApplication.Services
 {
@@ -20,7 +22,7 @@ namespace CookbookApplication.Services
 
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
-            XFont font = new XFont("Verdana", 12);
+            XFont font = new("Verdana", 12);
             double yPoint = 50;
             double imageSize = 100; // Size of the image
             double pageHeight = page.Height.Point;
@@ -30,10 +32,11 @@ namespace CookbookApplication.Services
             {
                 Recipe recipe = recipes[i];
                 // Image
-                string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources", Path.GetFileName(recipe.ImagePath));
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Resources", recipe.ImagePath);
                 if (File.Exists(imagePath))
                 {
                     XImage image = XImage.FromFile(imagePath);
+                    Debug.WriteLine(image.Size.ToString());
                     if (yPoint + imageSize + 10 > pageHeight - marginBottom)
                     {
                         // Add a new page if there's not enough space for the image
@@ -41,8 +44,8 @@ namespace CookbookApplication.Services
                         gfx = XGraphics.FromPdfPage(page);
                         yPoint = 50;
                     }
-                    gfx.DrawImage(image, 40, yPoint, imageSize, imageSize); // Draw image at (40, yPoint)
-                    yPoint += imageSize + 10; // Move yPoint down after drawing the image
+                    gfx.DrawImage(image, 40, yPoint, imageSize, imageSize);
+                    yPoint += imageSize + 10;
                 }
                 else
                 {

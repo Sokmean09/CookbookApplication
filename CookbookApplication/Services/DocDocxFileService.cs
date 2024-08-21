@@ -21,7 +21,9 @@ namespace CookbookApplication.Services
                 XWPFParagraph recipeParagraph = document.CreateParagraph();
                 XWPFRun recipeRun = recipeParagraph.CreateRun();
 
-                string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources", Path.GetFileName(recipe.ImagePath));
+                //string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources", Path.GetFileName(recipe.ImagePath));
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Resources", recipe.ImagePath);
+
                 if (File.Exists(imagePath))
                 {
                     using (FileStream imageStream = new(imagePath, FileMode.Open, FileAccess.Read))

@@ -121,10 +121,10 @@
   <data name="fried_rice" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\fried_rice.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="search_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\search_icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="thai_red_curry_with_chicken" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\thai-red-curry-with-chicken.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="default_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\image.png;System.Byte[]</value>
   </data>
 </root>

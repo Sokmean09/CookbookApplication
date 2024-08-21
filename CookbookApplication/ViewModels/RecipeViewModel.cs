@@ -7,17 +7,16 @@ using CookbookApplication.Services;
 using CookbookApplication.Models;
 using CookbookApplication.Views;
 using static CookbookApplication.Services.DefaultDialogService;
-using System.Windows.Markup;
 
 namespace CookbookApplication.ViewModels
 {
     internal class RecipeViewModel : INotifyPropertyChanged
     {
         private Recipe selectedRecipe;
+        private string? searchText;
+
         public ObservableCollection<Recipe> Recipes { get; set; }
         public ObservableCollection<Recipe> FilteredRecipes { get; set; }
-        private Visibility searchBarVisibility = Visibility.Collapsed;
-        private string? searchText;
         private readonly IDialogService dialogService;
         private readonly IFileService pdfFileService;
         private readonly IFileService docxFileService;
@@ -28,16 +27,6 @@ namespace CookbookApplication.ViewModels
             set
             {
                 selectedRecipe = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility SearchBarVisibility
-        {
-            get => searchBarVisibility;
-            set
-            {
-                searchBarVisibility = value;
                 OnPropertyChanged();
             }
         }
@@ -55,7 +44,6 @@ namespace CookbookApplication.ViewModels
                 }
             }
         }
-
 
         public List<string> RecipeTypeNames { get; set; } =
         [
@@ -128,7 +116,6 @@ namespace CookbookApplication.ViewModels
             RemoveInstructionCommand = new(RemoveInstruction, CanRemoveInstruction);
             EditImageCommand = new(EditImage);
 
-            ToggleSearchBarCommand = new(ToggleSearchBar);
             SearchParameterCommand = new(SearchParameters);
 
             SaveDocDocxFileCommand = new(SaveDocDocxFile);
@@ -146,7 +133,6 @@ namespace CookbookApplication.ViewModels
         public RelayCommand RemoveInstructionCommand { get; }
         public RelayCommand EditImageCommand { get; }
 
-        public RelayCommand ToggleSearchBarCommand { get; }
         public RelayCommand SearchParameterCommand { get; }
 
         public RelayCommand SaveDocDocxFileCommand { get; }
@@ -159,9 +145,10 @@ namespace CookbookApplication.ViewModels
                 Name = "New Name",
                 Type = "New Type",
                 Cuisine = "New Cuisine",
+                ImagePath = "..\\Resources\\image.png",
                 Ingredients = [new Ingredient { Name = "New Ingredient", Quantity = "1" }],
                 Instructions = [new Instruction { Name = "New Instruction" }]
-            }) ;
+            });
             SearchParameters(new object());
         }
 
@@ -282,11 +269,6 @@ namespace CookbookApplication.ViewModels
                 SelectedRecipe.ImagePath = openFileDialog.FileName;
                 OnPropertyChanged(nameof(SelectedRecipe));
             }
-        }
-
-        private void ToggleSearchBar(object parameter)
-        {
-            SearchBarVisibility = SearchBarVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void SearchParameters(object parameter)
