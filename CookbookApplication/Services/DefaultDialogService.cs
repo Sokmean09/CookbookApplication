@@ -27,6 +27,7 @@ namespace CookbookApplication.Services
         {
             Word,
             Pdf,
+            Json,
             All
         }
 
@@ -56,6 +57,12 @@ namespace CookbookApplication.Services
             {
                 saveFileDialog.Filter = "PDF Documents (*.pdf)|*.pdf";
                 saveFileDialog.DefaultExt = "pdf"; // Default file extension for PDF
+                saveFileDialog.AddExtension = true; // Add the selected extension to the file name
+            }
+            else if (fileType == FileType.Json)
+            {
+                saveFileDialog.Filter = "JSON Source File (*.json)|*.json";
+                saveFileDialog.DefaultExt = "json"; // Default file extension for PDF
                 saveFileDialog.AddExtension = true; // Add the selected extension to the file name
             }
             else

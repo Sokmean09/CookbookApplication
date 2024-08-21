@@ -7,6 +7,9 @@ using CookbookApplication.Services;
 using CookbookApplication.Models;
 using CookbookApplication.Views;
 using static CookbookApplication.Services.DefaultDialogService;
+using Newtonsoft.Json;
+using System.IO;
+using System.Diagnostics;
 
 namespace CookbookApplication.ViewModels
 {
@@ -17,9 +20,11 @@ namespace CookbookApplication.ViewModels
 
         public ObservableCollection<Recipe> Recipes { get; set; }
         public ObservableCollection<Recipe> FilteredRecipes { get; set; }
+
         private readonly IDialogService dialogService;
         private readonly IFileService pdfFileService;
         private readonly IFileService docxFileService;
+        private readonly IFileService jsonFileService;
 
         public Recipe SelectedRecipe
         {
@@ -76,11 +81,12 @@ namespace CookbookApplication.ViewModels
             "Others"
         ];
 
-        public RecipeViewModel(IDialogService dialogService, IFileService docxFileService, IFileService pdfFileService)
+        public RecipeViewModel(IDialogService dialogService, IFileService docxFileService, IFileService pdfFileService, IFileService jsonFileService)
         {
             this.dialogService = dialogService;
             this.pdfFileService = pdfFileService;
             this.docxFileService = docxFileService;
+            this.jsonFileService = jsonFileService;
 
             Recipes =
             [
@@ -120,6 +126,9 @@ namespace CookbookApplication.ViewModels
 
             SaveDocDocxFileCommand = new(SaveDocDocxFile);
             SavePdfFileCommand = new(SavePdfFile);
+            SaveJsonFileCommand = new(SaveJsonFile);
+
+            OpenJsonFileCommand = new(OpenJsonFile);
         }
 
         public RelayCommand AddRecipeCommand { get; }
@@ -137,6 +146,9 @@ namespace CookbookApplication.ViewModels
 
         public RelayCommand SaveDocDocxFileCommand { get; }
         public RelayCommand SavePdfFileCommand { get; }
+        public RelayCommand SaveJsonFileCommand { get; }
+
+        public RelayCommand OpenJsonFileCommand { get; }
 
         private void AddRecipe(object parameter)
         {
@@ -281,7 +293,7 @@ namespace CookbookApplication.ViewModels
             if (searchParameters == null || searchParameters.Count == 0)
             {
                 FilteredRecipes.Clear();
-                foreach (var recipe in Recipes)
+                foreach (Recipe recipe in Recipes)
                 {
                     FilteredRecipes.Add(recipe);
                 }
@@ -334,6 +346,46 @@ namespace CookbookApplication.ViewModels
                         Recipes.Select(recipe => new Recipe
                         { Name = recipe?.Name, Type = recipe?.Type, Cuisine = recipe?.Cuisine, ImagePath = recipe?.ImagePath,
                             Ingredients = recipe?.Ingredients, Instructions = recipe?.Instructions }).ToList());
+                    dialogService.ShowMessage("File saved successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                dialogService.ShowMessage(ex.Message);
+            }
+        }
+
+        private void OpenJsonFile(object parameter)
+        {
+            if (dialogService.OpenFileDialog())
+            {
+                List<Recipe> recipeList = jsonFileService.Open(dialogService.FilePath);
+                Recipes = new(recipeList);
+                FilteredRecipes.Clear();
+                foreach (Recipe recipe in Recipes)
+                {
+                    FilteredRecipes.Add(recipe);
+                }
+                return;
+            }
+        }
+
+        private void SaveJsonFile(object parameter)
+        {
+            try
+            {
+                if (dialogService.SaveFileDialog(FileType.Json))
+                {
+                    jsonFileService.Save(dialogService.FilePath,
+                        Recipes.Select(recipe => new Recipe
+                        {
+                            Name = recipe?.Name,
+                            Type = recipe?.Type,
+                            Cuisine = recipe?.Cuisine,
+                            ImagePath = recipe?.ImagePath,
+                            Ingredients = recipe?.Ingredients,
+                            Instructions = recipe?.Instructions
+                        }).ToList());
                     dialogService.ShowMessage("File saved successfully.");
                 }
             }

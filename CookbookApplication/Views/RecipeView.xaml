@@ -10,11 +10,8 @@
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open"/>
-                <MenuItem Header="_Save">
-                    <MenuItem Header="Save as _Doc/Docx" Command="{Binding SaveDocDocxFileCommand}"/>
-                    <MenuItem Header="Save as _Pdf" Command="{Binding SavePdfFileCommand}"/>
-                </MenuItem>
+                <MenuItem Header="_Open" Command="{Binding OpenJsonFileCommand}"/>
+                <MenuItem Header="_Save" Command="{Binding SaveJsonFileCommand}"/>
             </MenuItem>
         </Menu>
 

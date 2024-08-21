@@ -13,7 +13,7 @@ namespace CookbookApplication.Views
         {
             InitializeComponent();
 
-            DataContext = new RecipeViewModel(new DefaultDialogService(), new DocDocxFileService(), new PdfFileService());
+            DataContext = new RecipeViewModel(new DefaultDialogService(), new DocDocxFileService(), new PdfFileService(), new JsonFileService());
         }
     }
 }
