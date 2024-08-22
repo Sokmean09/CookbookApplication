@@ -1,15 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Microsoft.Win32;
 using System.Windows;
+using Microsoft.Win32;
 using CookbookApplication.Services;
 using CookbookApplication.Models;
 using CookbookApplication.Views;
 using static CookbookApplication.Services.DefaultDialogService;
-using Newtonsoft.Json;
-using System.IO;
-using System.Diagnostics;
 
 namespace CookbookApplication.ViewModels
 {

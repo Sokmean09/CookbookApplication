@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CookbookApplication.Views"
         mc:Ignorable="d"
-        Title="RecipeView" MinHeight="530" MinWidth="915" WindowStartupLocation="CenterScreen" Height="530" Width="915">
+        Title="RecipeView" WindowStartupLocation="CenterScreen" MinHeight="300" MinWidth="1000" Height="500" Width="1000">
     <DockPanel>
 
         <Menu DockPanel.Dock="Top">
@@ -20,65 +20,60 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
-            <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="10,0,0,0">
-                <TextBlock Text="Recipes" FontSize="20" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0">
-                    <TextBox Width="200" Height="25" VerticalAlignment="Top" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button Content="Search" Width="50" Height="25" VerticalAlignment="Top" Command="{Binding SearchParameterCommand}"/>
-                </StackPanel>
-                <ListBox ItemsSource="{Binding FilteredRecipes}" SelectedItem="{Binding SelectedRecipe}" d:ItemsSource="{d:SampleData ItemCount=3}" Height="350"  Width="250" FontSize="15">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="5">
-                                <TextBlock FontSize="18" Text="{Binding Name}"/>
-                                <TextBlock Text="{Binding Type}"/>
-                                <TextBlock Text="{Binding Cuisine}"/>
-                                <Image Source="{Binding ImagePath}" HorizontalAlignment="Left" Height="50" Width="50" Stretch="Fill"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+            
+            <TextBlock Text="Recipes" FontSize="20" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0">
+                <TextBox Width="250" Height="25" VerticalAlignment="Top" FontSize="15" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Content="Search" Width="50" Height="25" VerticalAlignment="Top" Command="{Binding SearchParameterCommand}"/>
             </StackPanel>
-            <Grid HorizontalAlignment="Stretch" Margin="270,0,0,0" Width="620">
+            <ListBox ItemsSource="{Binding FilteredRecipes}" SelectedItem="{Binding SelectedRecipe}" d:ItemsSource="{d:SampleData ItemCount=3}" Margin="0,80,0,0" Width="300" FontSize="15">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <TextBlock FontSize="18" Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Type}"/>
+                            <TextBlock Text="{Binding Cuisine}"/>
+                            <Image Source="{Binding ImagePath}" HorizontalAlignment="Left" Height="50" Width="50" Stretch="Fill"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
-                <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
-                    <TextBlock Text="Ingredients" FontSize="20" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                    <ListBox ItemsSource="{Binding SelectedRecipe.Ingredients}" d:ItemsSource="{d:SampleData ItemCount=5}" BorderBrush="{x:Null}" Height="376" Width="250" FontSize="15" Margin="0,5,0,0" Background="#FFDAD4D3">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Width="215" VerticalAlignment="Stretch">
-                                    <CheckBox VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Name}" Margin="5,0,20,0"/>
-                                    <TextBlock Text="{Binding Quantity}" HorizontalAlignment="Right"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
-
-                <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="260,0,0,0">
-                    <TextBlock Text="Instructions" FontSize="20" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                    <ListBox ItemsSource="{Binding SelectedRecipe.Instructions}" d:ItemsSource="{d:SampleData ItemCount=5}" BorderBrush="{x:Null}" Height="376" Width="360" FontSize="15" Margin="0,5,0,0" Background="#FFDAD4D3">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <CheckBox VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Name}" Margin="5,0,0,0"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
-
-            </Grid>
-
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20">
                 <Button Content="Add Recipe" Command="{Binding AddRecipeCommand}" Margin="5"/>
                 <Button Content="Remove Recipe" Command="{Binding RemoveRecipeCommand}" CommandParameter="{Binding SelectedRecipe}" Margin="5"/>
                 <Button Content="Edit Recipe" Command="{Binding EditRecipeCommand}" CommandParameter="{Binding SelectedRecipe}" Margin="5"/>
                 <Button Content="Export Recipe" Command="{Binding ExportRecipeCommand}" CommandParameter="{Binding SelectedRecipe}" Margin="5"/>
             </StackPanel>
+        </Grid>
+
+        <Grid MinWidth="200" MaxWidth="300">
+            <TextBlock Text="Ingredients" FontSize="20" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+            <ListBox ItemsSource="{Binding SelectedRecipe.Ingredients}" d:ItemsSource="{d:SampleData ItemCount=5}" BorderBrush="{x:Null}" FontSize="15" Margin="0,50,0,0" Background="#FFDAD4D3">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" Margin="5,0,20,0"/>
+                            <TextBlock Text="{Binding Quantity}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        
+        <Grid MinWidth="300">
+            <TextBlock Text="Instructions" FontSize="20" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+            <ListBox ItemsSource="{Binding SelectedRecipe.Instructions}" d:ItemsSource="{d:SampleData ItemCount=5}" BorderBrush="{x:Null}" FontSize="15" Margin="0,50,0,0" Background="#FFDAD4D3">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
 
     </DockPanel>
