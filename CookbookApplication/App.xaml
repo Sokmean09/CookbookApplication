@@ -10,7 +10,7 @@
 
                 <ResourceDictionary Source="Views/Styles/Scrollbar.xaml" />
                 <ResourceDictionary Source="Views/Styles/DatagridStyle.xaml" />
-                <ResourceDictionary Source="Views/Styles/WoodUiTheme.xaml" />
+                <ResourceDictionary Source="Views/Styles/YellowUiTheme.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
 
