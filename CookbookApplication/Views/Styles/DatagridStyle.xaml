@@ -40,6 +40,7 @@
                     <Setter Property="Padding" Value="4,3,4,3" />
                     <Setter Property="BorderBrush" Value="Transparent"/>
                     <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Background" Value="#FFF0F0F0" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="DataGridCell">
