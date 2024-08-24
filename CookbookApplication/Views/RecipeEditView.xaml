@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CookbookApplication.Views"
         mc:Ignorable="d"
-        Title="RecipeEditView" WindowStartupLocation="CenterScreen" MinHeight="300" MinWidth="600" Height="500" Width="1000" >
+        Title="RecipeEditView" WindowStartupLocation="CenterScreen" MinHeight="300" MinWidth="600" Height="516" Width="1000" >
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"></Setter>
