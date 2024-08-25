@@ -15,10 +15,5 @@ namespace CookbookApplication.Views
 
             DataContext = new RecipeViewModel(new DefaultDialogService(), new DocDocxFileService(), new PdfFileService(), new JsonFileService());
         }
-
-        private void ListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }
