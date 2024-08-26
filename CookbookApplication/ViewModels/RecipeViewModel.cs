@@ -7,11 +7,13 @@ using CookbookApplication.Services;
 using CookbookApplication.Models;
 using CookbookApplication.Views;
 using static CookbookApplication.Services.DefaultDialogService;
+using System.IO;
 
 namespace CookbookApplication.ViewModels
 {
     internal class RecipeViewModel : INotifyPropertyChanged
     {
+        public string FilePath { get; set; }   
         private Recipe selectedRecipe;
         private string? searchText;
 
@@ -22,6 +24,30 @@ namespace CookbookApplication.ViewModels
         private readonly IFileService pdfFileService;
         private readonly IFileService docxFileService;
         private readonly IFileService jsonFileService;
+
+        public bool LoadRecipesFromFile()
+        {
+            if (!File.Exists(FilePath))
+            {
+                return false;
+            }
+            List<Recipe> recipeList = jsonFileService.Open(FilePath);
+            Recipes = new(recipeList);
+            FilteredRecipes = new(Recipes);
+            return true;
+        }
+
+        public void SaveRecipesToFile()
+        {
+            if (File.Exists(FilePath))
+            {
+                File.Delete(FilePath);
+            }
+            if (Recipes != null)
+            {
+                jsonFileService.Save(FilePath, [.. Recipes]);
+            }
+        }
 
         public Recipe SelectedRecipe
         {
@@ -49,33 +75,15 @@ namespace CookbookApplication.ViewModels
 
         public List<string> RecipeTypeNames { get; set; } =
         [
-            "Main-dish",
-            "Side-dish",
-            "Dessert",
-            "Breakfast",
-            "Lunch",
-            "Dinner",
-            "Salad",
-            "Soup",
-            "Stew",
-            "Snack",
-            "Baked-goods",
-            "Others"
+            "Main-dish", "Side-dish", "Dessert", 
+            "Breakfast", "Lunch", "Dinner",
+            "Salad", "Soup", "Stew", "Snack", "Baked-goods", "Others"
         ];
 
         public List<string> RecipeCuisineNames { get; set; } =
         [
-            "American",
-            "British",
-            "Chinese",
-            "French",
-            "Japanese",
-            "Khmer",
-            "Mexican",
-            "Spanish",
-            "Thai",
-            "Vietnamese",
-            "Others"
+            "American", "British", "Chinese", "French", "Japanese", "Khmer", 
+            "Mexican", "Spanish", "Thai", "Vietnamese", "Others"
         ];
 
         public RecipeViewModel(IDialogService dialogService, IFileService docxFileService, IFileService pdfFileService, IFileService jsonFileService)
@@ -85,6 +93,7 @@ namespace CookbookApplication.ViewModels
             this.docxFileService = docxFileService;
             this.jsonFileService = jsonFileService;
 
+            FilePath = Directory.GetCurrentDirectory() + @"\Recipes.json";
             Recipes =
             [
                 new Recipe
@@ -106,6 +115,12 @@ namespace CookbookApplication.ViewModels
                     Instructions = [],
                     ImagePath = "..\\Resources\\thai-red-curry-with-chicken.jpg" }
             ];
+
+            if (!LoadRecipesFromFile())
+            {
+                SaveRecipesToFile();
+            }
+
             FilteredRecipes = new(Recipes);
 
             AddRecipeCommand = new(AddRecipe);
@@ -352,21 +367,6 @@ namespace CookbookApplication.ViewModels
             }
         }
 
-        private void OpenJsonFile(object parameter)
-        {
-            if (dialogService.OpenFileDialog())
-            {
-                List<Recipe> recipeList = jsonFileService.Open(dialogService.FilePath);
-                Recipes = new(recipeList);
-                FilteredRecipes.Clear();
-                foreach (Recipe recipe in Recipes)
-                {
-                    FilteredRecipes.Add(recipe);
-                }
-                return;
-            }
-        }
-
         private void SaveJsonFile(object parameter)
         {
             try
@@ -389,6 +389,21 @@ namespace CookbookApplication.ViewModels
             catch (Exception ex)
             {
                 dialogService.ShowMessage(ex.Message);
+            }
+        }
+
+        private void OpenJsonFile(object parameter)
+        {
+            if (dialogService.OpenFileDialog())
+            {
+                List<Recipe> recipeList = jsonFileService.Open(dialogService.FilePath);
+                Recipes = new(recipeList);
+                FilteredRecipes.Clear();
+                foreach (Recipe recipe in Recipes)
+                {
+                    FilteredRecipes.Add(recipe);
+                }
+                return;
             }
         }
 
