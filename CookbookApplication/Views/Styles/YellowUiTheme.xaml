@@ -27,7 +27,7 @@
     <Style TargetType="TextBox">
         <Setter Property="Height" Value="25"/>
         <Setter Property="Foreground" Value="#FF50392E"/>
-        <!-- <Setter Property="Background" Value="#FFFFFFFF"/> -->
+        <Setter Property="Background" Value="#FFFFFFFF"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
     </Style>
 

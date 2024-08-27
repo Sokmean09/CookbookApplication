@@ -63,6 +63,36 @@ namespace CookbookApplication {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] chiken_fajitas {
+            get {
+                object obj = ResourceManager.GetObject("chiken_fajitas", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] default_image {
+            get {
+                object obj = ResourceManager.GetObject("default_image", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Fish_and_chips {
+            get {
+                object obj = ResourceManager.GetObject("Fish and chips", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] fried_rice {
             get {
                 object obj = ResourceManager.GetObject("fried_rice", resourceCulture);
@@ -73,9 +103,9 @@ namespace CookbookApplication {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] search_icon {
+        internal static byte[] spaghetti_bolognese {
             get {
-                object obj = ResourceManager.GetObject("search_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("spaghetti bolognese", resourceCulture);
                 return ((byte[])(obj));
             }
         }

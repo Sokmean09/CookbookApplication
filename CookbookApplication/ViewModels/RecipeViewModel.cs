@@ -82,7 +82,7 @@ namespace CookbookApplication.ViewModels
 
         public List<string> RecipeCuisineNames { get; set; } =
         [
-            "American", "British", "Chinese", "French", "Japanese", "Khmer", 
+            "American", "British", "Chinese", "French", "Italian", "Japanese", "Khmer", 
             "Mexican", "Spanish", "Thai", "Vietnamese", "Others"
         ];
 
@@ -98,22 +98,14 @@ namespace CookbookApplication.ViewModels
             [
                 new Recipe
                 {
-                    Name = "fry rice", 
+                    Name = "Fried Rice", 
                     Type = "Main-dish", 
                     Cuisine = "Khmer", 
                     Ingredients = [new Ingredient { Name = "rice", Quantity = "100g"}, 
                                    new Ingredient { Name = "egg" , Quantity = "1 whole"}],
                     Instructions = [new Instruction { Name = "crack egg"},
                                     new Instruction { Name = "stir"}],
-                    ImagePath = "..\\Resources\\fried_rice.jpg" },
-                new Recipe 
-                {
-                    Name = "red curry",
-                    Type = "Soup", 
-                    Cuisine = "Thai",
-                    Ingredients = [],
-                    Instructions = [],
-                    ImagePath = "..\\Resources\\thai-red-curry-with-chicken.jpg" }
+                    ImagePath = @"\Resources\fried_rice.jpg" }
             ];
 
             if (!LoadRecipesFromFile())
@@ -141,6 +133,8 @@ namespace CookbookApplication.ViewModels
             SaveJsonFileCommand = new(SaveJsonFile);
 
             OpenJsonFileCommand = new(OpenJsonFile);
+
+            DataGridTipsCommand = new(DataGridTips);
         }
 
         public RelayCommand AddRecipeCommand { get; }
@@ -162,6 +156,8 @@ namespace CookbookApplication.ViewModels
 
         public RelayCommand OpenJsonFileCommand { get; }
 
+        public RelayCommand DataGridTipsCommand { get; }
+
         private void AddRecipe(object parameter)
         {
             Recipes.Add(new Recipe
@@ -171,7 +167,8 @@ namespace CookbookApplication.ViewModels
                 Cuisine = "New Cuisine",
                 ImagePath = "..\\Resources\\image.png",
                 Ingredients = [new Ingredient { Name = "New Ingredient", Quantity = "1" }],
-                Instructions = [new Instruction { Name = "New Instruction" }]
+                Instructions = [new Instruction { Name = "New Instruction" }],
+                About_Detail = "Description"
             });
             SearchParameters(new object());
         }
@@ -216,7 +213,7 @@ namespace CookbookApplication.ViewModels
                     List<Recipe> list = [SelectedRecipe];
 
                     string filePath = dialogService.FilePath;
-                    string fileExtension = System.IO.Path.GetExtension(filePath).ToLower();
+                    string fileExtension = Path.GetExtension(filePath).ToLower();
 
                     if (fileExtension == ".doc" || fileExtension == ".docx")
                     {
@@ -335,10 +332,7 @@ namespace CookbookApplication.ViewModels
             {
                 if (dialogService.SaveFileDialog(FileType.Word))
                 {
-                    docxFileService.Save(dialogService.FilePath,
-                        Recipes.Select(recipe => new Recipe
-                        { Name = recipe?.Name, Type = recipe?.Type, Cuisine = recipe?.Cuisine, ImagePath = recipe?.ImagePath,
-                            Ingredients = recipe?.Ingredients, Instructions = recipe?.Instructions }).ToList());
+                    docxFileService.Save(dialogService.FilePath, ReturnRecipesToList());
                     dialogService.ShowMessage("File saved successfully.");
                 }
             }
@@ -354,10 +348,7 @@ namespace CookbookApplication.ViewModels
             {
                 if (dialogService.SaveFileDialog(FileType.Pdf))
                 {
-                    pdfFileService.Save(dialogService.FilePath,
-                        Recipes.Select(recipe => new Recipe
-                        { Name = recipe?.Name, Type = recipe?.Type, Cuisine = recipe?.Cuisine, ImagePath = recipe?.ImagePath,
-                            Ingredients = recipe?.Ingredients, Instructions = recipe?.Instructions }).ToList());
+                    pdfFileService.Save(dialogService.FilePath, ReturnRecipesToList());
                     dialogService.ShowMessage("File saved successfully.");
                 }
             }
@@ -373,16 +364,7 @@ namespace CookbookApplication.ViewModels
             {
                 if (dialogService.SaveFileDialog(FileType.Json))
                 {
-                    jsonFileService.Save(dialogService.FilePath,
-                        Recipes.Select(recipe => new Recipe
-                        {
-                            Name = recipe?.Name,
-                            Type = recipe?.Type,
-                            Cuisine = recipe?.Cuisine,
-                            ImagePath = recipe?.ImagePath,
-                            Ingredients = recipe?.Ingredients,
-                            Instructions = recipe?.Instructions
-                        }).ToList());
+                    jsonFileService.Save(dialogService.FilePath, ReturnRecipesToList());
                     dialogService.ShowMessage("File saved successfully.");
                 }
             }
@@ -405,6 +387,30 @@ namespace CookbookApplication.ViewModels
                 }
                 return;
             }
+        }
+
+        private void DataGridTips(object parameter)
+        {
+            MessageBox.Show("Alt + Right Arrow : Expand Grid\nAlt + Left Arrow : Shrink Grid", "Tips", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void RefreshRecipes()
+        {
+
+        }
+
+        private List<Recipe> ReturnRecipesToList()
+        {
+            return Recipes.Select(recipe => new Recipe
+            {
+                Name = recipe?.Name,
+                Type = recipe?.Type,
+                Cuisine = recipe?.Cuisine,
+                ImagePath = recipe?.ImagePath,
+                Ingredients = recipe?.Ingredients,
+                Instructions = recipe?.Instructions,
+                About_Detail = recipe?.About_Detail,
+            }).ToList();
         }
 
 

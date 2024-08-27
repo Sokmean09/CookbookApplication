@@ -12,6 +12,7 @@ namespace CookbookApplication.Models
         private string? imagepath;
         private ObservableCollection<Ingredient>? ingredients;
         private ObservableCollection<Instruction>? instructions;
+        private string? about_detail;
 
         public string? Name
         {
@@ -69,6 +70,16 @@ namespace CookbookApplication.Models
             set
             {
                 instructions = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string? About_Detail
+        {
+            get => about_detail;
+            set
+            {
+                about_detail = value;
                 OnPropertyChanged();
             }
         }

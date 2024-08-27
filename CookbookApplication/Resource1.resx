@@ -127,4 +127,13 @@
   <data name="default_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\image.png;System.Byte[]</value>
   </data>
+  <data name="chiken_fajitas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\chiken_fajitas.jpg;System.Byte[]</value>
+  </data>
+  <data name="Fish and chips" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Fish and chips.jpg;System.Byte[]</value>
+  </data>
+  <data name="spaghetti bolognese" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\spaghetti bolognese.jpg;System.Byte[]</value>
+  </data>
 </root>

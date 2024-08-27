@@ -16,8 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\chiken_fajitas.jpg" />
+    <None Remove="Resources\Fish and chips.jpg" />
     <None Remove="Resources\fried_rice.jpg" />
     <None Remove="Resources\image.png" />
+    <None Remove="Resources\spaghetti bolognese.jpg" />
     <None Remove="Resources\thai-red-curry-with-chicken.jpg" />
   </ItemGroup>
 
@@ -34,10 +37,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\chiken_fajitas.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fish and chips.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\fried_rice.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\image.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\spaghetti bolognese.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\thai-red-curry-with-chicken.jpg">
@@ -57,6 +69,7 @@
     <EmbeddedResource Update="Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
