@@ -1,0 +1,385 @@
+[
+  {
+    "Name": "Fried Rice",
+    "Type": "Main-dish",
+    "Cuisine": "Khmer",
+    "ImagePath": "..\\Resources\\fried_rice.jpg",
+    "Ingredients": [
+      {
+        "Name": "cooked jasmine rice (preferably day-old)",
+        "Quantity": "3 cups"
+      },
+      {
+        "Name": "eggs, beaten",
+        "Quantity": "2"
+      },
+      {
+        "Name": "shrimp, chicken, or pork, sliced",
+        "Quantity": "200g (7 oz)"
+      },
+      {
+        "Name": "onion, chopped",
+        "Quantity": "1"
+      },
+      {
+        "Name": "garlic cloves, minced",
+        "Quantity": "2"
+      },
+      {
+        "Name": "carrot, diced",
+        "Quantity": "1"
+      },
+      {
+        "Name": "cup mixed vegetables (like peas and corn)",
+        "Quantity": "1"
+      },
+      {
+        "Name": "soy sauce",
+        "Quantity": "2 tablespoons"
+      },
+      {
+        "Name": "fish sauce",
+        "Quantity": "1 tablespoon"
+      },
+      {
+        "Name": "sugar",
+        "Quantity": "1 tablespoon"
+      },
+      {
+        "Name": "vegetable oil",
+        "Quantity": "2 tablespoons"
+      },
+      {
+        "Name": "Fresh cilantro and lime wedges (for garnish)",
+        "Quantity": ""
+      }
+    ],
+    "Instructions": [
+      {
+        "Name": "Heat 1 tablespoon of oil in a large wok or skillet over medium heat."
+      },
+      {
+        "Name": "Add beaten eggs and scramble until just set, then remove from the wok and set aside."
+      },
+      {
+        "Name": "In the same wok, add the remaining oil and cook the garlic and onion until fragrant."
+      },
+      {
+        "Name": "Add the meat or shrimp and cook until done."
+      },
+      {
+        "Name": "Stir in the carrot and mixed vegetables, cooking until tender."
+      },
+      {
+        "Name": "Add the cooked rice to the wok, breaking up any clumps."
+      },
+      {
+        "Name": "Stir in soy sauce, fish sauce, and sugar, mixing everything well."
+      },
+      {
+        "Name": "Add the scrambled eggs back to the wok and mix."
+      },
+      {
+        "Name": "Serve hot, garnished with fresh cilantro and lime wedges."
+      }
+    ],
+    "About_Detail": "Khmer Fried Rice is a simple and flavorful dish from Cambodia that features stir-fried rice with a mix of vegetables, eggs, and sometimes meat or seafood. It's seasoned with a combination of soy sauce and fish sauce, giving it a delicious umami flavor with a touch of sweetness."
+  },
+  {
+    "Name": "Red Curry",
+    "Type": "Main-dish",
+    "Cuisine": "Thai",
+    "ImagePath": "..\\Resources\\thai-red-curry-with-chicken.jpg",
+    "Ingredients": [
+      {
+        "Name": "red curry paste",
+        "Quantity": "2 tablespoons"
+      },
+      {
+        "Name": "coconut milk",
+        "Quantity": "1 can (400ml)"
+      },
+      {
+        "Name": "vegetable oil",
+        "Quantity": "1 tablespoon"
+      },
+      {
+        "Name": "red bell pepper, sliced",
+        "Quantity": "1"
+      },
+      {
+        "Name": "green bell pepper, sliced",
+        "Quantity": "1"
+      },
+      {
+        "Name": "carrot, sliced",
+        "Quantity": "1"
+      },
+      {
+        "Name": " chicken breast or tofu, cubed",
+        "Quantity": "200g (7 oz)"
+      },
+      {
+        "Name": "fish sauce (or soy sauce for a vegetarian version)",
+        "Quantity": "2 tablespoons"
+      },
+      {
+        "Name": "brown sugar",
+        "Quantity": "1 tablespoon"
+      },
+      {
+        "Name": "fresh basil leaves",
+        "Quantity": "1 handful"
+      },
+      {
+        "Name": "lime (for serving)",
+        "Quantity": ""
+      },
+      {
+        "Name": "Cooked jasmine rice (for serving)",
+        "Quantity": ""
+      }
+    ],
+    "Instructions": [
+      {
+        "Name": "Heat vegetable oil in a large skillet or wok over medium heat."
+      },
+      {
+        "Name": "Add red curry paste and cook for 1-2 minutes until fragrant."
+      },
+      {
+        "Name": "Pour in coconut milk and stir to combine."
+      },
+      {
+        "Name": "Add chicken or tofu and cook until almost done."
+      },
+      {
+        "Name": "Add bell peppers and carrot; simmer until vegetables are tender and chicken is cooked through."
+      },
+      {
+        "Name": "Stir in fish sauce and brown sugar; adjust seasoning to taste."
+      },
+      {
+        "Name": "Remove from heat and stir in fresh basil leaves."
+      },
+      {
+        "Name": "Serve with jasmine rice and a squeeze of lime juice."
+      }
+    ],
+    "About_Detail": "Thai Red Curry is a rich and aromatic dish featuring a flavorful red curry paste cooked with coconut milk, vegetables, and meat or tofu. It’s known for its balanced combination of spicy, sweet, and savory flavors."
+  },
+  {
+    "Name": "Chicken fajitas",
+    "Type": "Main-dish",
+    "Cuisine": "Mexican",
+    "ImagePath": "..\\Resources\\chiken_fajitas.jpg",
+    "Ingredients": [
+      {
+        "Name": "boneless, skinless chicken breasts",
+        "Quantity": "2"
+      },
+      {
+        "Name": "red bell pepper",
+        "Quantity": "1"
+      },
+      {
+        "Name": "green bell pepper",
+        "Quantity": "1"
+      },
+      {
+        "Name": "onion",
+        "Quantity": "1"
+      },
+      {
+        "Name": "olive oil",
+        "Quantity": "2 tablespoons "
+      },
+      {
+        "Name": "fajita seasoning",
+        "Quantity": "2 tablespoons "
+      },
+      {
+        "Name": "Tortillas",
+        "Quantity": ""
+      },
+      {
+        "Name": "Optional toppings: sour cream, salsa, cheese, guacamole",
+        "Quantity": ""
+      }
+    ],
+    "Instructions": [
+      {
+        "Name": "Slice the chicken, bell peppers, and onion into thin strips."
+      },
+      {
+        "Name": "In a bowl, mix chicken with olive oil and fajita seasoning."
+      },
+      {
+        "Name": "Heat a skillet over medium-high heat, add the chicken, and cook until done."
+      },
+      {
+        "Name": "Add the sliced peppers and onions to the skillet and sauté until tender."
+      },
+      {
+        "Name": "Serve the cooked chicken and veggies in warm tortillas."
+      },
+      {
+        "Name": "Add your favorite toppings, and enjoy!"
+      }
+    ],
+    "About_Detail": "Chicken fajitas are a flavorful and vibrant dish featuring marinated and grilled chicken strips served with sautéed bell peppers and onions, all wrapped in warm tortillas. It’s a quick and delicious meal that combines smoky, tangy, and savory flavors."
+  },
+  {
+    "Name": "Fish and chips",
+    "Type": "Main-dish",
+    "Cuisine": "British",
+    "ImagePath": "..\\Resources\\Fish and chips.jpg",
+    "Ingredients": [
+      {
+        "Name": "cod or haddock fillets",
+        "Quantity": "4 pieces"
+      },
+      {
+        "Name": "all-purpose flour",
+        "Quantity": "1 cup"
+      },
+      {
+        "Name": "cold sparkling water",
+        "Quantity": "1 cup"
+      },
+      {
+        "Name": "baking powder",
+        "Quantity": "1 teaspoon"
+      },
+      {
+        "Name": "salt",
+        "Quantity": "1 teaspoon"
+      },
+      {
+        "Name": "pepper",
+        "Quantity": "1/2 teaspoon"
+      },
+      {
+        "Name": "potatoes (for chips)",
+        "Quantity": "4 large"
+      },
+      {
+        "Name": "Vegetable oil (for frying)",
+        "Quantity": ""
+      },
+      {
+        "Name": "Optional: malt vinegar, tartar sauce, peas",
+        "Quantity": ""
+      }
+    ],
+    "Instructions": [
+      {
+        "Name": "Peel and cut potatoes into thick strips; rinse and pat dry."
+      },
+      {
+        "Name": "Heat oil in a deep fryer or large pot to 350°F (175°C)."
+      },
+      {
+        "Name": "For the batter, mix flour, baking powder, salt, and pepper. Gradually add cold sparkling water until smooth."
+      },
+      {
+        "Name": "Coat fish fillets in flour, then dip in batter."
+      },
+      {
+        "Name": "Fry fish until golden and cooked through, about 5-7 minutes."
+      },
+      {
+        "Name": "Fry potato strips in batches until crispy and golden, about 4-5 minutes."
+      },
+      {
+        "Name": "Drain fish and chips on paper towels, season with salt, and serve with optional malt vinegar or tartar sauce."
+      }
+    ],
+    "About_Detail": "Fish and chips is a classic British dish featuring crispy battered fish served with thick-cut fries. The fish is typically cod or haddock, and the chips are often thick, fluffy, and golden brown."
+  },
+  {
+    "Name": "Spaghetti Bolognese",
+    "Type": "Main-dish",
+    "Cuisine": "Italian",
+    "ImagePath": "..\\Resources\\spaghetti bolognese.jpg",
+    "Ingredients": [
+      {
+        "Name": "spaghetti",
+        "Quantity": "400g (14 oz)"
+      },
+      {
+        "Name": "ground beef",
+        "Quantity": "500g (1 lb)"
+      },
+      {
+        "Name": "onion, chopped",
+        "Quantity": "1"
+      },
+      {
+        "Name": "garlic cloves, minced",
+        "Quantity": "1"
+      },
+      {
+        "Name": "carrot, diced",
+        "Quantity": "1"
+      },
+      {
+        "Name": "celery stalk, diced",
+        "Quantity": "1"
+      },
+      {
+        "Name": "canned tomatoes (diced or crushed)",
+        "Quantity": "400g (14 oz)"
+      },
+      {
+        "Name": "tomato paste",
+        "Quantity": "2 tablespoons"
+      },
+      {
+        "Name": " beef broth",
+        "Quantity": "1 cup"
+      },
+      {
+        "Name": "dried oregano",
+        "Quantity": "1 teaspoon"
+      },
+      {
+        "Name": "dried basil",
+        "Quantity": "1 teaspoon"
+      },
+      {
+        "Name": "Salt and pepper to taste",
+        "Quantity": ""
+      },
+      {
+        "Name": "Olive oil for cooking",
+        "Quantity": ""
+      },
+      {
+        "Name": "Grated Parmesan cheese (optional)",
+        "Quantity": ""
+      }
+    ],
+    "Instructions": [
+      {
+        "Name": "Cook spaghetti according to package instructions; drain and set aside."
+      },
+      {
+        "Name": "Heat olive oil in a large skillet over medium heat. Add onion, garlic, carrot, and celery; cook until softened."
+      },
+      {
+        "Name": "Add ground beef, cook until browned, breaking it up with a spoon."
+      },
+      {
+        "Name": "Stir in tomato paste, canned tomatoes, beef broth, oregano, and basil. Simmer for 20-30 minutes, until the sauce thickens."
+      },
+      {
+        "Name": "Season with salt and pepper to taste."
+      },
+      {
+        "Name": "Serve the Bolognese sauce over cooked spaghetti, and top with grated Parmesan cheese if desired."
+      }
+    ],
+    "About_Detail": "Spaghetti Bolognese is a classic Italian pasta dish featuring a rich and savory meat sauce made with ground beef, tomatoes, onions, and various herbs. It's typically served over spaghetti noodles and often topped with Parmesan cheese."
+  }
+]

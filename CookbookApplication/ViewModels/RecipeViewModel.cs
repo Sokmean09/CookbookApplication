@@ -93,7 +93,7 @@ namespace CookbookApplication.ViewModels
             this.docxFileService = docxFileService;
             this.jsonFileService = jsonFileService;
 
-            FilePath = Directory.GetCurrentDirectory() + @"\Recipes.json";
+            FilePath = Directory.GetCurrentDirectory() + "..\\..\\..\\..\\Recipes.json";
             Recipes =
             [
                 new Recipe
