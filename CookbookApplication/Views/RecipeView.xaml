@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CookbookApplication.Views"
         mc:Ignorable="d"
         Closing="Window_Closing"
-        Title="RecipeView" WindowStartupLocation="CenterScreen" MinHeight="300" MinWidth="1000" Height="500" Width="1000">
+        Title="Recipe" WindowStartupLocation="CenterScreen" MinHeight="300" MinWidth="1000" Height="500" Width="1000">
         
     <Window.Resources>
     
@@ -45,7 +45,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Source="{Binding ImagePath}" HorizontalAlignment="Left" Height="50" Width="50" Grid.Column="1" Stretch="Fill"/>
+                                    <Image Source="{Binding Imagepath}" HorizontalAlignment="Left" Height="50" Width="50" Grid.Column="1" Stretch="Fill"/>
                                     <TextBlock Text="" Grid.Column="1"/>
                                 </Grid>
                             </StackPanel>
@@ -81,7 +81,7 @@
                     <TextBlock Text="Details" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0" Grid.ColumnSpan="2"/>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="200" HorizontalAlignment="Left" 
                                   Grid.ColumnSpan="2" Margin="0,50,0,0">
-                        <TextBlock Text="{Binding SelectedRecipe.About_Detail}" FontSize="15" FontWeight="Medium" HorizontalAlignment="Left" 
+                        <TextBlock Text="{Binding SelectedRecipe.About_detail}" FontSize="15" FontWeight="Medium" HorizontalAlignment="Left" 
                                    Margin="0,0,0,0" Grid.ColumnSpan="2" TextWrapping="Wrap"/>
                     </ScrollViewer>
 

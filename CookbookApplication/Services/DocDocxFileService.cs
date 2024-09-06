@@ -22,7 +22,7 @@ namespace CookbookApplication.Services
                 XWPFRun recipeRun = recipeParagraph.CreateRun();
 
                 //string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources", Path.GetFileName(recipe.ImagePath));
-                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Resources", recipe.ImagePath);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Resources", recipe.Imagepath);
 
                 if (File.Exists(imagePath))
                 {

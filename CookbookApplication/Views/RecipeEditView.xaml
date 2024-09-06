@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CookbookApplication.Views"
         mc:Ignorable="d"
-        Title="RecipeEditView" WindowStartupLocation="CenterScreen" MinHeight="300" MinWidth="700" Height="516" Width="1000" >
+        Title="Recipe Edit" WindowStartupLocation="CenterScreen" MinHeight="300" MinWidth="700" Height="516" Width="1000" >
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"></Setter>
@@ -27,7 +27,7 @@
                 <ComboBox ItemsSource="{Binding RecipeTypeNames}" SelectedItem="{Binding SelectedRecipe.Type}" FontSize="15" MaxDropDownHeight="200" IsTextSearchEnabled="True" />
                 <TextBlock Text="Cuisine" FontWeight="Bold" Margin="0,10,10,5"/>
                 <ComboBox ItemsSource="{Binding RecipeCuisineNames}" SelectedItem="{Binding SelectedRecipe.Cuisine}" FontSize="15" MaxDropDownHeight="200" IsTextSearchEnabled="True"/>
-                <Image Source="{Binding SelectedRecipe.ImagePath}" Height="150" Width="150" Stretch="Fill" Margin="0,30,0,0"/>
+                <Image Source="{Binding SelectedRecipe.Imagepath}" Height="150" Width="150" Stretch="Fill" Margin="0,30,0,0"/>
                 <Button Content="Edit Image" Command="{Binding EditImageCommand}" Width="100" Margin="0,16,0,0"/>
             </StackPanel>
         </Grid>
@@ -47,7 +47,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Details" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                    <TextBox Text="{Binding SelectedRecipe.About_Detail}" FontSize="15" FontWeight="Medium" TextWrapping="Wrap" AcceptsReturn="True" 
+                    <TextBox Text="{Binding SelectedRecipe.About_detail, UpdateSourceTrigger=PropertyChanged}" FontSize="15" FontWeight="Medium" TextWrapping="Wrap" AcceptsReturn="True" 
                              MinHeight="110" Height="Auto" MaxHeight="220" Margin="0,50,0,0" VerticalScrollBarVisibility="Auto"/>
 
                 </Grid>

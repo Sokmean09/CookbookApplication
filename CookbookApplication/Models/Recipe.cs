@@ -1,94 +1,29 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace CookbookApplication.Models
 {
-    internal class Recipe : INotifyPropertyChanged
+    public partial class Recipe : ObservableObject
     {
+        [ObservableProperty]
         private string? name;
+
+        [ObservableProperty]
         private string? type;
+
+        [ObservableProperty]
         private string? cuisine;
+
+        [ObservableProperty]
         private string? imagepath;
+
+        [ObservableProperty]
         private ObservableCollection<Ingredient>? ingredients;
+
+        [ObservableProperty]
         private ObservableCollection<Instruction>? instructions;
+
+        [ObservableProperty]
         private string? about_detail;
-
-        public string? Name
-        {
-            get => name;
-            set
-            {
-                name = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string? Type
-        {
-            get => type;
-            set
-            {
-                type = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string? Cuisine
-        {
-            get => cuisine;
-            set
-            {
-                cuisine = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string? ImagePath
-        {
-            get => imagepath;
-            set
-            {
-                imagepath = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ObservableCollection<Ingredient>? Ingredients
-        {
-            get => ingredients;
-            set
-            {
-                ingredients = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ObservableCollection<Instruction>? Instructions
-        {
-            get => instructions;
-            set
-            {
-                instructions = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string? About_Detail
-        {
-            get => about_detail;
-            set
-            {
-                about_detail = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
