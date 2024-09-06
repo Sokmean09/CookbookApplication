@@ -3,8 +3,6 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using CookbookApplication.Models;
 using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Media.Media3D;
 
 namespace CookbookApplication.Services
 {
@@ -32,7 +30,7 @@ namespace CookbookApplication.Services
             {
                 Recipe recipe = recipes[i];
                 // Image
-                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Resources", recipe.ImagePath);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Resources", recipe.Imagepath);
                 if (File.Exists(imagePath))
                 {
                     XImage image = XImage.FromFile(imagePath);

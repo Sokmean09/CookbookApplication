@@ -1,39 +1,13 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CookbookApplication.Models
 {
-    public class Ingredient : INotifyPropertyChanged
+    public partial class Ingredient : ObservableObject
     {
+        [ObservableProperty]
         private string? name;
 
+        [ObservableProperty]
         private string? quantity;
-
-        public string? Name
-        {
-            get => name;
-            set
-            {
-                name = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string? Quantity
-        {
-            get => quantity;
-            set
-            {
-                quantity = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

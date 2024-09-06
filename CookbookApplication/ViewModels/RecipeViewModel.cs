@@ -1,23 +1,28 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using static CookbookApplication.Services.DefaultDialogService;
+using System.IO;
+using System.Collections.ObjectModel;
 using System.Windows;
 using Microsoft.Win32;
 using CookbookApplication.Services;
 using CookbookApplication.Models;
 using CookbookApplication.Views;
-using static CookbookApplication.Services.DefaultDialogService;
-using System.IO;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CookbookApplication.ViewModels
 {
-    internal class RecipeViewModel : INotifyPropertyChanged
+    internal partial class RecipeViewModel : ObservableObject
     {
-        public string FilePath { get; set; }   
-        private Recipe selectedRecipe;
+        public string FilePath { get; set; }
+
+        [ObservableProperty]
+        private Recipe? selectedRecipe;
+
+        [ObservableProperty]
         private string? searchText;
 
         public ObservableCollection<Recipe> Recipes { get; set; }
+
         public ObservableCollection<Recipe> FilteredRecipes { get; set; }
 
         private readonly IDialogService dialogService;
@@ -25,51 +30,18 @@ namespace CookbookApplication.ViewModels
         private readonly IFileService docxFileService;
         private readonly IFileService jsonFileService;
 
-        public bool LoadRecipesFromFile()
+        partial void OnSelectedRecipeChanged(Recipe value)
         {
-            if (!File.Exists(FilePath))
-            {
-                return false;
-            }
-            List<Recipe> recipeList = jsonFileService.Open(FilePath);
-            Recipes = new(recipeList);
-            FilteredRecipes = new(Recipes);
-            return true;
+            RemoveRecipeCommand.NotifyCanExecuteChanged();
+            EditRecipeCommand.NotifyCanExecuteChanged();
+            ExportRecipeCommand.NotifyCanExecuteChanged();
         }
 
-        public void SaveRecipesToFile()
+        partial void OnSearchTextChanged(string? value)
         {
-            if (File.Exists(FilePath))
+            if (string.IsNullOrEmpty(value))
             {
-                File.Delete(FilePath);
-            }
-            if (Recipes != null)
-            {
-                jsonFileService.Save(FilePath, [.. Recipes]);
-            }
-        }
-
-        public Recipe SelectedRecipe
-        {
-            get => selectedRecipe;
-            set
-            {
-                selectedRecipe = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string? SearchText
-        {
-            get => searchText;
-            set
-            {
-                searchText = value;
-                OnPropertyChanged();
-                if (SearchText == string.Empty)
-                {
-                    SearchParameters(new object());
-                }
+                SearchParameter(new object());
             }
         }
 
@@ -101,63 +73,25 @@ namespace CookbookApplication.ViewModels
                     Name = "Fried Rice", 
                     Type = "Main-dish", 
                     Cuisine = "Khmer", 
-                    Ingredients = [new Ingredient { Name = "rice", Quantity = "100g"}, 
-                                   new Ingredient { Name = "egg" , Quantity = "1 whole"}],
-                    Instructions = [new Instruction { Name = "crack egg"},
-                                    new Instruction { Name = "stir"}],
-                    ImagePath = @"\Resources\fried_rice.jpg" }
+                    Ingredients = [
+                        new Ingredient { Name = "rice", Quantity = "100g"}, 
+                        new Ingredient { Name = "egg" , Quantity = "1 whole"}
+                    ],
+                    Instructions = [
+                        new Instruction { Name = "crack egg"},
+                        new Instruction { Name = "stir"}
+                    ],
+                    Imagepath = @"\Resources\fried_rice.jpg" }
             ];
 
             if (!LoadRecipesFromFile())
             {
                 SaveRecipesToFile();
             }
-
             FilteredRecipes = new(Recipes);
-
-            AddRecipeCommand = new(AddRecipe);
-            RemoveRecipeCommand = new(RemoveRecipe, CanRemoveRecipe);
-            EditRecipeCommand = new(EditRecipe, CanEditRecipe);
-            ExportRecipeCommand = new(ExportRecipe, CanExportRecipe);
-
-            AddIngredientCommand = new(AddIngredient);
-            AddInstructionCommand = new(AddInstruction);
-            RemoveIngredientCommand = new(RemoveIngredient, CanRemoveIngredient);
-            RemoveInstructionCommand = new(RemoveInstruction, CanRemoveInstruction);
-            EditImageCommand = new(EditImage);
-
-            SearchParameterCommand = new(SearchParameters);
-
-            SaveDocDocxFileCommand = new(SaveDocDocxFile);
-            SavePdfFileCommand = new(SavePdfFile);
-            SaveJsonFileCommand = new(SaveJsonFile);
-
-            OpenJsonFileCommand = new(OpenJsonFile);
-
-            DataGridTipsCommand = new(DataGridTips);
         }
 
-        public RelayCommand AddRecipeCommand { get; }
-        public RelayCommand RemoveRecipeCommand { get; }
-        public RelayCommand EditRecipeCommand { get; }
-        public RelayCommand ExportRecipeCommand { get; }
-
-        public RelayCommand AddIngredientCommand { get; }
-        public RelayCommand RemoveIngredientCommand { get; }
-        public RelayCommand AddInstructionCommand { get; }
-        public RelayCommand RemoveInstructionCommand { get; }
-        public RelayCommand EditImageCommand { get; }
-
-        public RelayCommand SearchParameterCommand { get; }
-
-        public RelayCommand SaveDocDocxFileCommand { get; }
-        public RelayCommand SavePdfFileCommand { get; }
-        public RelayCommand SaveJsonFileCommand { get; }
-
-        public RelayCommand OpenJsonFileCommand { get; }
-
-        public RelayCommand DataGridTipsCommand { get; }
-
+        [RelayCommand]
         private void AddRecipe(object parameter)
         {
             Recipes.Add(new Recipe
@@ -165,19 +99,15 @@ namespace CookbookApplication.ViewModels
                 Name = "New Name",
                 Type = "New Type",
                 Cuisine = "New Cuisine",
-                ImagePath = "..\\Resources\\image.png",
+                Imagepath = "..\\Resources\\image.png",
                 Ingredients = [new Ingredient { Name = "New Ingredient", Quantity = "1" }],
                 Instructions = [new Instruction { Name = "New Instruction" }],
-                About_Detail = "Description"
+                About_detail = "Description"
             });
-            SearchParameters(new object());
+            SearchParameter(new object());
         }
 
-        private bool CanRemoveRecipe(object parameter)
-        {
-            return SelectedRecipe != null;
-        }
-
+        [RelayCommand(CanExecute = nameof(CanRemoveRecipe))]
         private void RemoveRecipe(object parameter)
         {
             MessageBoxResult result = MessageBox.Show("Delete the recipe?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
@@ -185,11 +115,15 @@ namespace CookbookApplication.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 Recipes.Remove(SelectedRecipe);
-                SearchParameters(new object());
+                SearchParameter(new object());
             }
         }
+        private bool CanRemoveRecipe(object parameter)
+        {
+            return IsRecipeSelected();
+        }
 
-
+        [RelayCommand(CanExecute = nameof(CanEditRecipe))]
         private void EditRecipe(object parameter)
         {
             RecipeEditView recipeEditView = new()
@@ -198,12 +132,12 @@ namespace CookbookApplication.ViewModels
             };
             recipeEditView.ShowDialog();
         }
-
         private bool CanEditRecipe(object parameter)
         {
-            return SelectedRecipe != null;
+            return IsRecipeSelected();
         }
 
+        [RelayCommand(CanExecute = nameof(CanExportRecipe))]
         private void ExportRecipe(object parameter)
         {
             try
@@ -237,17 +171,18 @@ namespace CookbookApplication.ViewModels
                 dialogService.ShowMessage(ex.Message);
             }
         }
-
         private bool CanExportRecipe(object parameter)
         {
-            return SelectedRecipe != null;
+            return IsRecipeSelected();
         }
 
+        [RelayCommand]
         private void AddIngredient(object parameter)
         {
             SelectedRecipe?.Ingredients?.Add(new Ingredient { Name = "New Ingredient", Quantity = "1" });
         }
 
+        [RelayCommand(CanExecute = nameof(CanRemoveIngredient))]
         private void RemoveIngredient(object parameter)
         {
             if (parameter is Ingredient ingredient && SelectedRecipe != null)
@@ -255,17 +190,18 @@ namespace CookbookApplication.ViewModels
                 SelectedRecipe.Ingredients?.Remove(ingredient);
             }
         }
-
         private bool CanRemoveIngredient(object parameter)
         {
             return parameter is Ingredient ingredient && SelectedRecipe?.Ingredients?.Contains(ingredient) == true;
         }
 
+        [RelayCommand]
         private void AddInstruction(object parameter)
         {
             SelectedRecipe?.Instructions?.Add(new Instruction { Name = "New Instruction" });
         }
 
+        [RelayCommand(CanExecute = nameof(CanRemoveInstruction))]
         private void RemoveInstruction(object parameter)
         {
             if (parameter is Instruction instruction && SelectedRecipe != null)
@@ -273,12 +209,12 @@ namespace CookbookApplication.ViewModels
                 SelectedRecipe?.Instructions?.Remove(instruction);
             }
         }
-
         private bool CanRemoveInstruction(object parameter)
         {
             return parameter is Instruction instruction && SelectedRecipe?.Instructions?.Contains(instruction) == true;
         }
 
+        [RelayCommand]
         private void EditImage(object parameter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -287,12 +223,13 @@ namespace CookbookApplication.ViewModels
             };
             if (openFileDialog.ShowDialog() == true)
             {
-                SelectedRecipe.ImagePath = openFileDialog.FileName;
+                SelectedRecipe.Imagepath = openFileDialog.FileName;
                 OnPropertyChanged(nameof(SelectedRecipe));
             }
         }
 
-        private void SearchParameters(object parameter)
+        [RelayCommand]
+        private void SearchParameter(object parameter)
         {
             List<string>? searchParameters = SearchText?
                 .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
@@ -326,6 +263,7 @@ namespace CookbookApplication.ViewModels
             }
         }
 
+        [RelayCommand]
         private void SaveDocDocxFile(object parameter)
         {
             try
@@ -342,6 +280,7 @@ namespace CookbookApplication.ViewModels
             }
         }
 
+        [RelayCommand]
         private void SavePdfFile(object parameter)
         {
             try
@@ -358,6 +297,7 @@ namespace CookbookApplication.ViewModels
             }
         }
 
+        [RelayCommand]
         private void SaveJsonFile(object parameter)
         {
             try
@@ -374,6 +314,7 @@ namespace CookbookApplication.ViewModels
             }
         }
 
+        [RelayCommand]
         private void OpenJsonFile(object parameter)
         {
             if (dialogService.OpenFileDialog())
@@ -389,6 +330,7 @@ namespace CookbookApplication.ViewModels
             }
         }
 
+        [RelayCommand]
         private void DataGridTips(object parameter)
         {
             MessageBox.Show("Alt + Right Arrow : Expand Grid\nAlt + Left Arrow : Shrink Grid", "Tips", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -406,20 +348,39 @@ namespace CookbookApplication.ViewModels
                 Name = recipe?.Name,
                 Type = recipe?.Type,
                 Cuisine = recipe?.Cuisine,
-                ImagePath = recipe?.ImagePath,
+                Imagepath = recipe?.Imagepath,
                 Ingredients = recipe?.Ingredients,
                 Instructions = recipe?.Instructions,
-                About_Detail = recipe?.About_Detail,
+                About_detail = recipe?.About_detail,
             }).ToList();
         }
 
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        private bool IsRecipeSelected()
         {
-            if (PropertyChanged != null)
+            return SelectedRecipe != null;
+        }
+
+        public bool LoadRecipesFromFile()
+        {
+            if (!File.Exists(FilePath))
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                return false;
+            }
+            List<Recipe> recipeList = jsonFileService.Open(FilePath);
+            Recipes = new(recipeList);
+            FilteredRecipes = new(Recipes);
+            return true;
+        }
+
+        public void SaveRecipesToFile()
+        {
+            if (File.Exists(FilePath))
+            {
+                File.Delete(FilePath);
+            }
+            if (Recipes != null)
+            {
+                jsonFileService.Save(FilePath, [.. Recipes]);
             }
         }
     }
