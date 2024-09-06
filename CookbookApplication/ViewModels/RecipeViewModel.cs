@@ -30,7 +30,7 @@ namespace CookbookApplication.ViewModels
         private readonly IFileService docxFileService;
         private readonly IFileService jsonFileService;
 
-        partial void OnSelectedRecipeChanged(Recipe value)
+        partial void OnSelectedRecipeChanged(Recipe? value)
         {
             RemoveRecipeCommand.NotifyCanExecuteChanged();
             EditRecipeCommand.NotifyCanExecuteChanged();
