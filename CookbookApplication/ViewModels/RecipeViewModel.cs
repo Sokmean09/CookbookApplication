@@ -8,6 +8,7 @@ using CookbookApplication.Models;
 using CookbookApplication.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows.Navigation;
 
 namespace CookbookApplication.ViewModels
 {
@@ -29,6 +30,8 @@ namespace CookbookApplication.ViewModels
         private readonly IFileService pdfFileService;
         private readonly IFileService docxFileService;
         private readonly IFileService jsonFileService;
+
+        public INavigationService NavigationService { get; set; }
 
         partial void OnSelectedRecipeChanged(Recipe? value)
         {
@@ -126,11 +129,8 @@ namespace CookbookApplication.ViewModels
         [RelayCommand(CanExecute = nameof(CanEditRecipe))]
         private void EditRecipe(object parameter)
         {
-            RecipeEditView recipeEditView = new()
-            {
-                DataContext = this
-            };
-            recipeEditView.ShowDialog();
+            NavigationService.NavigateTo("Page2", this);
+
         }
         private bool CanEditRecipe(object parameter)
         {
@@ -328,6 +328,12 @@ namespace CookbookApplication.ViewModels
                 }
                 return;
             }
+        }
+
+        [RelayCommand]
+        private void NavigateBack(object parameter)
+        {
+            NavigationService.NavigateTo("Page1", this);
         }
 
         [RelayCommand]

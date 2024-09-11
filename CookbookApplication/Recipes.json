@@ -3,7 +3,7 @@
     "Name": "Fried Rice",
     "Type": "Main-dish",
     "Cuisine": "Khmer",
-    "ImagePath": "..\\Resources\\fried_rice.jpg",
+    "Imagepath": "..\\Resources\\fried_rice.jpg",
     "Ingredients": [
       {
         "Name": "cooked jasmine rice (preferably day-old)",
@@ -83,13 +83,13 @@
         "Name": "Serve hot, garnished with fresh cilantro and lime wedges."
       }
     ],
-    "About_Detail": "Khmer Fried Rice is a simple and flavorful dish from Cambodia that features stir-fried rice with a mix of vegetables, eggs, and sometimes meat or seafood. It's seasoned with a combination of soy sauce and fish sauce, giving it a delicious umami flavor with a touch of sweetness."
+    "About_detail": "Khmer Fried Rice is a simple and flavorful dish from Cambodia that features stir-fried rice with a mix of vegetables, eggs, and sometimes meat or seafood. It's seasoned with a combination of soy sauce and fish sauce, giving it a delicious umami flavor with a touch of sweetness."
   },
   {
     "Name": "Red Curry",
     "Type": "Main-dish",
     "Cuisine": "Thai",
-    "ImagePath": "..\\Resources\\thai-red-curry-with-chicken.jpg",
+    "Imagepath": "..\\Resources\\thai-red-curry-with-chicken.jpg",
     "Ingredients": [
       {
         "Name": "red curry paste",
@@ -166,13 +166,13 @@
         "Name": "Serve with jasmine rice and a squeeze of lime juice."
       }
     ],
-    "About_Detail": "Thai Red Curry is a rich and aromatic dish featuring a flavorful red curry paste cooked with coconut milk, vegetables, and meat or tofu. It’s known for its balanced combination of spicy, sweet, and savory flavors."
+    "About_detail": "Thai Red Curry is a rich and aromatic dish featuring a flavorful red curry paste cooked with coconut milk, vegetables, and meat or tofu. It’s known for its balanced combination of spicy, sweet, and savory flavors."
   },
   {
     "Name": "Chicken fajitas",
     "Type": "Main-dish",
     "Cuisine": "Mexican",
-    "ImagePath": "..\\Resources\\chiken_fajitas.jpg",
+    "Imagepath": "..\\Resources\\chiken_fajitas.jpg",
     "Ingredients": [
       {
         "Name": "boneless, skinless chicken breasts",
@@ -227,13 +227,13 @@
         "Name": "Add your favorite toppings, and enjoy!"
       }
     ],
-    "About_Detail": "Chicken fajitas are a flavorful and vibrant dish featuring marinated and grilled chicken strips served with sautéed bell peppers and onions, all wrapped in warm tortillas. It’s a quick and delicious meal that combines smoky, tangy, and savory flavors."
+    "About_detail": "Chicken fajitas are a flavorful and vibrant dish featuring marinated and grilled chicken strips served with sautéed bell peppers and onions, all wrapped in warm tortillas. It’s a quick and delicious meal that combines smoky, tangy, and savory flavors."
   },
   {
     "Name": "Fish and chips",
     "Type": "Main-dish",
     "Cuisine": "British",
-    "ImagePath": "..\\Resources\\Fish and chips.jpg",
+    "Imagepath": "..\\Resources\\Fish and chips.jpg",
     "Ingredients": [
       {
         "Name": "cod or haddock fillets",
@@ -295,13 +295,13 @@
         "Name": "Drain fish and chips on paper towels, season with salt, and serve with optional malt vinegar or tartar sauce."
       }
     ],
-    "About_Detail": "Fish and chips is a classic British dish featuring crispy battered fish served with thick-cut fries. The fish is typically cod or haddock, and the chips are often thick, fluffy, and golden brown."
+    "About_detail": "Fish and chips is a classic British dish featuring crispy battered fish served with thick-cut fries. The fish is typically cod or haddock, and the chips are often thick, fluffy, and golden brown."
   },
   {
     "Name": "Spaghetti Bolognese",
     "Type": "Main-dish",
     "Cuisine": "Italian",
-    "ImagePath": "..\\Resources\\spaghetti bolognese.jpg",
+    "Imagepath": "..\\Resources\\spaghetti bolognese.jpg",
     "Ingredients": [
       {
         "Name": "spaghetti",
@@ -380,6 +380,6 @@
         "Name": "Serve the Bolognese sauce over cooked spaghetti, and top with grated Parmesan cheese if desired."
       }
     ],
-    "About_Detail": "Spaghetti Bolognese is a classic Italian pasta dish featuring a rich and savory meat sauce made with ground beef, tomatoes, onions, and various herbs. It's typically served over spaghetti noodles and often topped with Parmesan cheese."
+    "About_detail": "Spaghetti Bolognese is a classic Italian pasta dish featuring a rich and savory meat sauce made with ground beef, tomatoes, onions, and various herbs. It's typically served over spaghetti noodles and often topped with Parmesan cheese."
   }
 ]

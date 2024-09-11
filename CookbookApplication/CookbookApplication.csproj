@@ -11,8 +11,9 @@
   <ItemGroup>
     <Compile Remove="App.xaml.cs" />
     <Compile Remove="AssemblyInfo.cs" />
-    <Compile Remove="MainWindow.xaml.cs" />
     <Compile Remove="Views\RecipeCategoriesView.xaml.cs" />
+    <Compile Remove="Views\RecipeEditView.xaml.cs" />
+    <Compile Remove="Views\RecipeView.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,8 +27,9 @@
 
   <ItemGroup>
     <Page Remove="App.xaml" />
-    <Page Remove="MainWindow.xaml" />
     <Page Remove="Views\RecipeCategoriesView.xaml" />
+    <Page Remove="Views\RecipeEditView.xaml" />
+    <Page Remove="Views\RecipeView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
